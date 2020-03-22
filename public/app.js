@@ -6,11 +6,13 @@ window.onload = async (event) => {
 
     if(ghAccessToken) {
         document.getElementById("login").style.display = "none";
+        document.getElementById("main").style.display = "block";
         showRepos();
     } else {
         var loginBtn = document.getElementById('loginBtn');
         loginBtn.href = 'https://github.com/login/oauth/authorize?scope=user:email,read:org&client_id=' + ENV.GITHUB.CLIENT_ID;
-        document.getElementById('result').innerHTML = "You need to login first";
+        document.getElementById("login").style.display = "block";
+        document.getElementById("main").style.display = "none";
     }
     
 };

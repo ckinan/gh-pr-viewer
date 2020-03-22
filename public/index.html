@@ -16,26 +16,29 @@
     </div>
 
     <div class="mx-auto my-3 p-1" style="max-width: 900px;">
-      <div class="pagehead">
-        <h1>Pull Requests</h1>
+
+      <div id="login" class="blankslate">
+        <h3 class="mb-1">Welcome to gh-web-client</h3>
+        <p>You need to login with your Github account to see your content.</p>
+        <a id="loginBtn" class="btn btn-primary my-3">Login</a>
       </div>
 
-      <div id="login">
-        <a id="loginBtn">Login</a> to begin!</a>
-      </div>
-
-      <div id="result"></div>
-
-
-      <div class="Box Box--condensed">
-        <div class="Box-header">
-          <h3 class="Box-title">
-            PRs
-          </h3>
+      <div id="main">
+        <div class="pagehead">
+          <h1>Pull Requests</h1>
         </div>
-        <ul id="pr-list">
-        </ul>
+
+        <div class="Box Box--condensed">
+          <div class="Box-header">
+            <h3 class="Box-title">
+              PRs
+            </h3>
+          </div>
+          <ul id="pr-list">
+          </ul>
+        </div>
       </div>
+      
     </div>
   </body>
 </html>
