@@ -1,0 +1,12 @@
+{
+  "name": "gh-web-client",
+  "version": "1.0.0",
+  "description": "Web application that uses Github API",
+  "scripts": {
+    "build": "echo \"building...\""
+  },
+  "author": "ckinan",
+  "dependencies": {
+    "node-fetch": "^2.6.0"
+  }
+}
