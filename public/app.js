@@ -72,6 +72,12 @@ const showReview = async repo => {
                         <strong><a href="${repo.html_url}" target="_blank">${repo.name}</a></strong>
                     </div>
                     <a href="${pr.html_url}" target="_blank"> #${pr.number}: ${pr.title} (${pr.state})</a>
+                    <div class="text-small text-gray-light">
+                        <span><strong>Created at</strong>: ${new Date(pr.created_at).toString()}</span>
+                        <span><strong>Updated at</strong>: ${new Date(pr.updated_at).toString()}</span>
+                        <span><strong>Closed at</strong>: ${pr.closed_at ? new Date(pr.closed_at).toString() : '-'}</span>
+                        <span><strong>Merged at</strong>: ${pr.merged_at ? new Date(pr.merged_at).toString() : '-'}</span>
+                    <div>
                 </li>
             `;
         });
