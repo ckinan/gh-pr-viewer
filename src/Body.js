@@ -6,23 +6,20 @@ class Body extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            ghAccessToken: null
+            ghAccessToken: null,
+            prList: []
         };
     }
 
-    async componentDidMount() {
-        let ghAccessToken = await this.getGhAccessToken();
-        this.setState({ghAccessToken: ghAccessToken});
-
-        if(ghAccessToken) {
-            this.showRepos();
-        }
+    componentDidMount() {
+        this.initialize();
     }
-
-    async getGhAccessToken() {
+    
+    initialize() {
 
         if(localStorage.getItem(GH_ACCESS_TOKEN_KEY)) {
-            return localStorage.getItem(GH_ACCESS_TOKEN_KEY);
+            this.setState({ghAccessToken: localStorage.getItem(GH_ACCESS_TOKEN_KEY)});
+            this.showRepos();
         }
     
         var url = new URL(window.location.href);
@@ -33,51 +30,20 @@ class Body extends React.Component {
             return;
         }
     
-        let ghAccessToken = await fetch('/.netlify/functions/github-client?code=' + code).then(function (response) {
+        fetch('/.netlify/functions/github-client?code=' + code).then(function (response) {
             return response.json();
+        }).then((result) => {
+            localStorage.setItem(GH_ACCESS_TOKEN_KEY, result.msg.access_token);
+            this.setState({ghAccessToken: localStorage.getItem(GH_ACCESS_TOKEN_KEY)});
+            this.showRepos();
         }).catch(function (err) {
             console.warn('Could not get ghAccessToken.', err);
         });
-    
-        localStorage.setItem(GH_ACCESS_TOKEN_KEY, ghAccessToken.msg.access_token);
-    
-        return localStorage.getItem(GH_ACCESS_TOKEN_KEY);
-    }
-
-    async showReview(repo) {
-        fetch('https://api.github.com/repos/' + repo.full_name + '/pulls?state=all', {
-            method: 'GET',
-            headers: { 'Authorization': 'Bearer ' + localStorage.getItem(GH_ACCESS_TOKEN_KEY) }
-        }).then(function(response) {
-            return response.json();
-        }).then(function(data){
-            data.forEach(function (pr, index) {
-                console.log(pr);
-                /**
-                 document.getElementById('pr-list').innerHTML += `
-                    <li class="Box-row">
-                        <div class="text-small text-gray-light">
-                            <svg class="octicon octicon-repo" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9H3V8h1v1zm0-3H3v1h1V6zm0-2H3v1h1V4zm0-2H3v1h1V2zm8-1v12c0 .55-.45 1-1 1H6v2l-1.5-1.5L3 16v-2H1c-.55 0-1-.45-1-1V1c0-.55.45-1 1-1h10c.55 0 1 .45 1 1zm-1 10H1v2h2v-1h3v1h5v-2zm0-10H2v9h9V1z"></path></svg>
-                            <span class="author"><a href="${repo.owner.html_url}" class="url fn" rel="author" target="_blank">${repo.owner.login}</a></span>
-                            <span class="path-divider">/</span>
-                            <strong><a href="${repo.html_url}" target="_blank">${repo.name}</a></strong>
-                        </div>
-                        <a href="${pr.html_url}" target="_blank"> #${pr.number}: ${pr.title} (${pr.state})</a>
-                        <div class="text-small text-gray-light">
-                            <span><strong>Created at</strong>: ${new Date(pr.created_at).toString()}</span>
-                            <span><strong>Updated at</strong>: ${new Date(pr.updated_at).toString()}</span>
-                            <span><strong>Closed at</strong>: ${pr.closed_at ? new Date(pr.closed_at).toString() : '-'}</span>
-                            <span><strong>Merged at</strong>: ${pr.merged_at ? new Date(pr.merged_at).toString() : '-'}</span>
-                        <div>
-                    </li>
-                `;
-                 */
-                
-            });
-        });
     }
     
-    async showRepos() {
+    showRepos() {
+        var that = this;
+        
         fetch('https://api.github.com/user/repos', {
             method: 'GET',
             headers: { 'Authorization': 'Bearer ' + localStorage.getItem(GH_ACCESS_TOKEN_KEY) }
@@ -85,15 +51,39 @@ class Body extends React.Component {
             return response.json();
         }).then(function(data){
             data.forEach(function (repo, index) {
-                this.showReview(repo);
+                fetch('https://api.github.com/repos/' + repo.full_name + '/pulls?state=all', {
+                    method: 'GET',
+                    headers: { 'Authorization': 'Bearer ' + localStorage.getItem(GH_ACCESS_TOKEN_KEY) }
+                }).then(function(response) {
+                    return response.json();
+                }).then(function(data){
+                    let prList = data.map((pr) => {
+                        return (
+                            <li className="Box-row" key={pr.id}>
+                                <div className="text-small text-gray-light">
+                                    <svg className="octicon octicon-repo" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fillRule="evenodd" d="M4 9H3V8h1v1zm0-3H3v1h1V6zm0-2H3v1h1V4zm0-2H3v1h1V2zm8-1v12c0 .55-.45 1-1 1H6v2l-1.5-1.5L3 16v-2H1c-.55 0-1-.45-1-1V1c0-.55.45-1 1-1h10c.55 0 1 .45 1 1zm-1 10H1v2h2v-1h3v1h5v-2zm0-10H2v9h9V1z"></path></svg>
+                                    <span className="author"><a href={repo.owner.html_url} className="url fn" target="_blank" rel="noopener noreferrer">{repo.owner.login}</a></span>
+                                    <span className="path-divider">/</span>
+                                    <strong><a href={repo.html_url} target="_blank" rel="noopener noreferrer">{repo.name}</a></strong>
+                                </div>
+                                <a href={pr.html_url} target="_blank" rel="noopener noreferrer"> #{pr.number}: {pr.title} ({pr.state})</a>
+                                <div className="text-small text-gray-light">
+                                    <span><strong>Created at</strong>: {new Date(pr.created_at).toString()}</span>
+                                    <span><strong>Updated at</strong>: {new Date(pr.updated_at).toString()}</span>
+                                    <span><strong>Closed at</strong>: {pr.closed_at ? new Date(pr.closed_at).toString() : '-'}</span>
+                                    <span><strong>Merged at</strong>: {pr.merged_at ? new Date(pr.merged_at).toString() : '-'}</span>
+                                </div>
+                            </li>
+                        );
+                    });
+                    that.setState({prList: [...that.state.prList, ...prList]});
+                });
             });
         });
     }
-    
-    
 
     render() {
-        if (!this.state.ghAccessToken) {
+        if (this.state.ghAccessToken === null) {
             return (
                 <div className="mx-auto my-3 p-1" style={{maxWidth: '900px'}}>
                     <div id="login" className="blankslate">
@@ -106,8 +96,6 @@ class Body extends React.Component {
         } else {
             return (
                 <div className="mx-auto my-3 p-1" style={{maxWidth: '900px'}}>
-                    <p>Access Token: {this.state.ghAccessToken}</p>
-    
                     <div id="main">
                         <div className="pagehead">
                         <h1>Pull Requests</h1>
@@ -120,6 +108,7 @@ class Body extends React.Component {
                             </h3>
                         </div>
                         <ul id="pr-list">
+                            {this.state.prList}
                         </ul>
                         </div>
                     </div>
