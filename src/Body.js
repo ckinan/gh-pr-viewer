@@ -7,7 +7,8 @@ class Body extends React.Component {
         super(props);
         this.state = {
             ghAccessToken: null,
-            prList: []
+            prList: [],
+            isPublicOnly: true
         };
     }
 
@@ -16,7 +17,20 @@ class Body extends React.Component {
     }
     
     initialize() {
+        let that = this;
+        fetch('/.netlify/functions/gh-fetch-repo').then(function (response) {
+            return response.json();
+        }).then((result) => {
+            that.setState({isPublicOnly: false});
+            console.log(result);
+        }).catch(function (err) {
+            that.setState({isPublicOnly: true});
+            console.warn('Could not get repos.', err);
+        });
 
+        /*
+        
+        
         if(localStorage.getItem(GH_ACCESS_TOKEN_KEY)) {
             this.setState({ghAccessToken: localStorage.getItem(GH_ACCESS_TOKEN_KEY)});
             this.showRepos();
@@ -39,6 +53,8 @@ class Body extends React.Component {
         }).catch(function (err) {
             console.warn('Could not get ghAccessToken.', err);
         });
+
+        */
     }
     
     showRepos() {
@@ -83,7 +99,7 @@ class Body extends React.Component {
     }
 
     render() {
-        if (this.state.ghAccessToken === null) {
+        if (this.state.isPublicOnly) {
             return (
                 <div className="mx-auto my-3 p-1" style={{maxWidth: '900px'}}>
                     <div id="login" className="blankslate">

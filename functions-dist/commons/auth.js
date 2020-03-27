@@ -15,6 +15,11 @@ exports.create = (token) => {
 
 exports.check = (event) => {
   const cookies = event.headers.cookie && cookie.parse(event.headers.cookie);
-  console.log(cookies.ghAccessToken);
+  if(cookies) console.log(cookies.ghAccessToken);
   return !!cookies.ghAccessToken;
+}
+
+exports.getToken = (event) => {
+  const cookies = event.headers.cookie && cookie.parse(event.headers.cookie);
+  return cookies.ghAccessToken;
 }
