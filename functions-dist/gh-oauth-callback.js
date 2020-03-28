@@ -26,7 +26,7 @@ exports.handler = async function(event) {
       statusCode: 302,
       body: JSON.stringify({}),
       'headers': {
-        Location: "/",
+        Location: "/app",
         'Set-Cookie': auth.create(data.access_token),
         'Cache-Control': 'no-cache'
       }

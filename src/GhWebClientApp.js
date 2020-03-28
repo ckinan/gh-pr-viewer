@@ -1,14 +1,11 @@
 import React from 'react';
-const GH_ACCESS_TOKEN_KEY = 'ghAccessToken';
 
-class Body extends React.Component {
+class GhWebClientApp extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            ghAccessToken: null,
-            prList: [],
-            isPublicOnly: true
+            prList: []
         };
     }
 
@@ -57,40 +54,27 @@ class Body extends React.Component {
     }
     
     render() {
-        if (this.state.isPublicOnly) {
-            return (
-                <div className="mx-auto my-3 p-1" style={{maxWidth: '900px'}}>
-                    <div id="login" className="blankslate">
-                        <h3 className="mb-1">Welcome to Github Web Client</h3>
-                        <p>You need to login with your Github account to see your content.</p>
-                        <a href="https://github.com/login/oauth/authorize?scope=user:email,read:org&client_id=0f95382ee6992185ca65" id="loginBtn" className="btn btn-primary my-3">Login</a>
+        return (
+            <div className="mx-auto my-3 p-1" style={{maxWidth: '900px'}}>
+                <div id="main">
+                    <div className="pagehead">
+                    <h1>Pull Requests</h1>
                     </div>
-                </div>
-            );
-        } else {
-            return (
-                <div className="mx-auto my-3 p-1" style={{maxWidth: '900px'}}>
-                    <div id="main">
-                        <div className="pagehead">
-                        <h1>Pull Requests</h1>
-                        </div>
-            
-                        <div className="Box Box--condensed">
-                        <div className="Box-header">
-                            <h3 className="Box-title">
-                            PRs
-                            </h3>
-                        </div>
-                        <ul id="pr-list">
-                            {this.state.prList}
-                        </ul>
-                        </div>
-                    </div>
-                </div>
-            );
-        }
         
+                    <div className="Box Box--condensed">
+                    <div className="Box-header">
+                        <h3 className="Box-title">
+                        PRs
+                        </h3>
+                    </div>
+                    <ul id="pr-list">
+                        {this.state.prList}
+                    </ul>
+                    </div>
+                </div>
+            </div>
+        );
     }
 }
 
-export default Body;
+export default GhWebClientApp;
