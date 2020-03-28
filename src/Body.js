@@ -18,59 +18,14 @@ class Body extends React.Component {
     
     initialize() {
         let that = this;
-        fetch('/.netlify/functions/gh-fetch-repo').then(function (response) {
+        fetch('/.netlify/functions/gh-fetch-repos').then(function (response) {
             return response.json();
-        }).then((result) => {
+        }).then((repos) => {
             that.setState({isPublicOnly: false});
-            console.log(result);
-        }).catch(function (err) {
-            that.setState({isPublicOnly: true});
-            console.warn('Could not get repos.', err);
-        });
+            console.log(repos);
 
-        /*
-        
-        
-        if(localStorage.getItem(GH_ACCESS_TOKEN_KEY)) {
-            this.setState({ghAccessToken: localStorage.getItem(GH_ACCESS_TOKEN_KEY)});
-            this.showRepos();
-        }
-    
-        var url = new URL(window.location.href);
-        var code = url.searchParams.get("code");
-        window.history.replaceState({}, document.title, window.location.pathname);
-    
-        if(code == null) {
-            return;
-        }
-    
-        fetch('/.netlify/functions/github-client?code=' + code).then(function (response) {
-            return response.json();
-        }).then((result) => {
-            localStorage.setItem(GH_ACCESS_TOKEN_KEY, result.msg.access_token);
-            this.setState({ghAccessToken: localStorage.getItem(GH_ACCESS_TOKEN_KEY)});
-            this.showRepos();
-        }).catch(function (err) {
-            console.warn('Could not get ghAccessToken.', err);
-        });
-
-        */
-    }
-    
-    showRepos() {
-        var that = this;
-        
-        fetch('https://api.github.com/user/repos', {
-            method: 'GET',
-            headers: { 'Authorization': 'Bearer ' + localStorage.getItem(GH_ACCESS_TOKEN_KEY) }
-        }).then(function(response) {
-            return response.json();
-        }).then(function(data){
-            data.forEach(function (repo, index) {
-                fetch('https://api.github.com/repos/' + repo.full_name + '/pulls?state=all', {
-                    method: 'GET',
-                    headers: { 'Authorization': 'Bearer ' + localStorage.getItem(GH_ACCESS_TOKEN_KEY) }
-                }).then(function(response) {
+            repos.forEach(function (repo, index) {
+                fetch('/.netlify/functions/gh-fetch-pulls?repo=' + repo.full_name).then(function(response) {
                     return response.json();
                 }).then(function(data){
                     let prList = data.map((pr) => {
@@ -95,9 +50,12 @@ class Body extends React.Component {
                     that.setState({prList: [...that.state.prList, ...prList]});
                 });
             });
+        }).catch(function (err) {
+            that.setState({isPublicOnly: true});
+            console.warn('Could not get repos.', err);
         });
     }
-
+    
     render() {
         if (this.state.isPublicOnly) {
             return (
