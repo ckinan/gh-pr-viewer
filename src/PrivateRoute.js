@@ -8,20 +8,21 @@ import {
     useHistory,
     useLocation
   } from "react-router-dom";
+import { checkAuth } from './CheckAuth';
 
 export const PrivateRoute = ({ children, ...rest }) => {
-    const isAuthenticated = false;
+    const isAuthenticated = checkAuth();
 
     return (
       <Route
         {...rest}
         render={({ location }) =>
-        isAuthenticated ? (
+        isAuthenticated === true ? (
             children
           ) : (
             <Redirect
               to={{
-                pathname: "/login",
+                pathname: "/",
                 state: { from: location }
               }}
             />

@@ -8,9 +8,11 @@ import {
     useHistory,
     useLocation
   } from "react-router-dom";
+import { checkAuth } from './CheckAuth';
+
 
 export const PublicRoute = ({ children, ...rest }) => {
-    const isAuthenticated = false;
+    const isAuthenticated = checkAuth();
 
     return (
       <Route
