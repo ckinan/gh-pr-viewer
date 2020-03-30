@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from './Header';
-import LoginPage from './LoginPage';
-import GhWebClientApp from './GhWebClientApp';
+import PublicView from './PublicView';
+import ProtectedView from './ProtectedView';
 
 class App extends React.Component {
 
@@ -23,7 +23,7 @@ class App extends React.Component {
     return (
       <div>
         <Header />
-        {!!this.state.isAuthenticated ? <GhWebClientApp /> : <LoginPage />}
+        {!!this.state.isAuthenticated ? <ProtectedView /> : <PublicView />}
       </div>
     );
   }
