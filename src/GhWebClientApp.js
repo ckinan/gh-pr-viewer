@@ -19,7 +19,6 @@ class GhWebClientApp extends React.Component {
             return response.json();
         }).then((repos) => {
             that.setState({isPublicOnly: false});
-            console.log(repos);
 
             repos.forEach(function (repo, index) {
                 fetch('/.netlify/functions/gh-fetch-pulls?repo=' + repo.full_name).then(function(response) {
