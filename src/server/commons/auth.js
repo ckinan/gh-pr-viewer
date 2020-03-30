@@ -11,14 +11,14 @@ exports.create = (token) => {
     maxAge: thirtyDays,
   });
   return newCookie;
-}
+};
 
 exports.check = (event) => {
   const cookies = event.headers.cookie && cookie.parse(event.headers.cookie);
   return cookies ? !!cookies.ghAccessToken : false;
-}
+};
 
 exports.getToken = (event) => {
   const cookies = event.headers.cookie && cookie.parse(event.headers.cookie);
   return cookies ? cookies.ghAccessToken : false;
-}
+};
