@@ -4,17 +4,16 @@ import PublicView from './PublicView';
 import ProtectedView from './ProtectedView';
 
 class App extends React.Component {
-
   state = {
-    isAuthenticated: false
-  }
+    isAuthenticated: false,
+  };
 
   componentDidMount() {
     let that = this;
 
-    fetch('/.netlify/functions/gh-check-auth').then(function(response) {
-      if(response.ok) {
-        that.setState({isAuthenticated: true});
+    fetch('/.netlify/functions/gh-check-auth').then(function (response) {
+      if (response.ok) {
+        that.setState({ isAuthenticated: true });
       }
     });
   }
