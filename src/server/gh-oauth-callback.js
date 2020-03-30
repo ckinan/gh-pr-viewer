@@ -2,8 +2,11 @@ const GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET;
 const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID;
 const GITHUB_ACCESS_TOKEN_URL = "https://github.com/login/oauth/access_token";
 
-const fetch = require('node-fetch')
+const fetch = require('node-fetch');
+const auth = require('./commons/auth');
+
 exports.handler = async function(event) {
+    
   const code = event.queryStringParameters.code;
   const params = new URLSearchParams();
   params.append('client_secret', GITHUB_CLIENT_SECRET);
@@ -16,11 +19,17 @@ exports.handler = async function(event) {
       body: params,
       headers: { Accept: 'application/json' }
     });
+
     const data = await response.json();
 
     return {
-      statusCode: 200,
-      body: JSON.stringify({ msg: data })
+      statusCode: 302,
+      body: JSON.stringify({}),
+      'headers': {
+        Location: "/",
+        'Set-Cookie': auth.create(data.access_token),
+        'Cache-Control': 'no-cache'
+      }
     };
   } catch (err) {
     console.log(err); // output to netlify function log
