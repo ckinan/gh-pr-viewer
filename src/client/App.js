@@ -6,14 +6,15 @@ import ProtectedView from './ProtectedView';
 class App extends React.Component {
   state = {
     isAuthenticated: false,
+    isLoading: true,
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     let that = this;
 
-    fetch('/.netlify/functions/gh-check-auth').then(function (response) {
+    await fetch('/.netlify/functions/gh-check-auth').then(function(response) {
       if (response.ok) {
-        that.setState({ isAuthenticated: true });
+        that.setState({ isAuthenticated: true, isLoading: false });
       }
     });
   }
@@ -22,7 +23,20 @@ class App extends React.Component {
     return (
       <div>
         <Header />
-        {!!this.state.isAuthenticated ? <ProtectedView /> : <PublicView />}
+        {this.state.isLoading ? (
+          <div className="mx-auto my-3 p-1" style={{ maxWidth: '900px' }}>
+            <div className="blankslate">
+              <h2>
+                <span>Loading</span>
+                <span className="AnimatedEllipsis"></span>
+              </h2>
+            </div>
+          </div>
+        ) : !!this.state.isAuthenticated ? (
+          <ProtectedView />
+        ) : (
+          <PublicView />
+        )}
       </div>
     );
   }
