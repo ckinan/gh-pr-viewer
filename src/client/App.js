@@ -15,6 +15,8 @@ class App extends React.Component {
     await fetch('/.netlify/functions/gh-check-auth').then(function(response) {
       if (response.ok) {
         that.setState({ isAuthenticated: true, isLoading: false });
+      } else {
+        that.setState({ isLoading: false });
       }
     });
   }

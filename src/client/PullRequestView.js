@@ -26,7 +26,7 @@ class PullRequestView extends React.Component {
       });
 
       for (const pr of prs) {
-        prList.push(<PullRequestRow pr={pr} repo={repo} />);
+        prList.push(<PullRequestRow pr={pr} repo={repo} key={pr.id} />);
       }
     }
 
