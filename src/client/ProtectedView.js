@@ -15,19 +15,19 @@ class GhWebClientApp extends React.Component {
   initialize() {
     let that = this;
     fetch('/.netlify/functions/gh-fetch-repos')
-      .then(function (response) {
+      .then(function(response) {
         return response.json();
       })
-      .then((repos) => {
+      .then(repos => {
         that.setState({ isPublicOnly: false });
 
-        repos.forEach(function (repo, index) {
+        repos.forEach(function(repo, index) {
           fetch('/.netlify/functions/gh-fetch-pulls?repo=' + repo.full_name)
-            .then(function (response) {
+            .then(function(response) {
               return response.json();
             })
-            .then(function (data) {
-              let prList = data.map((pr) => {
+            .then(function(data) {
+              let prList = data.map(pr => {
                 return (
                   <li className="Box-row" key={pr.id}>
                     <div className="text-small text-gray-light">
@@ -98,7 +98,7 @@ class GhWebClientApp extends React.Component {
             });
         });
       })
-      .catch(function (err) {
+      .catch(function(err) {
         that.setState({ isPublicOnly: true });
         console.warn('Could not get repos.', err);
       });
