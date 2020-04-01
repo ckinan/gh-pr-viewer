@@ -29,26 +29,27 @@ exports.handler = async function(event) {
 };
 
 const query = `{
-    viewer {
-      pullRequests(first: 100) {
-        nodes {
-          title
-          number
+  viewer {
+    pullRequests(first: 100) {
+      nodes {
+        id
+        title
+        number
+        url
+        state
+        updatedAt
+        createdAt
+        closedAt
+        mergedAt
+        repository {
+          name
           url
-          state
-          updatedAt
-          createdAt
-          closedAt
-          mergedAt
-          repository {
-            name
+          owner {
             url
-            owner {
-              url
-              login
-            }
+            login
           }
         }
       }
     }
-  }`;
+  }
+}`;
