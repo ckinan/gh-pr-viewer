@@ -11,23 +11,15 @@ class PullRequestBox extends React.Component {
   }
 
   async componentDidMount() {
-    let repos = await fetch('/.netlify/functions/gh-fetch-repos').then(function(
-      response
-    ) {
-      return response.json();
-    });
+    let prs = await fetch('/.netlify/functions/gh-fetch-pull-requests').then(
+      function(response) {
+        return response.json();
+      }
+    );
 
     let prList = [];
-    for (const repo of repos) {
-      let prs = await fetch(
-        '/.netlify/functions/gh-fetch-pulls?repo=' + repo.full_name
-      ).then(function(response) {
-        return response.json();
-      });
-
-      for (const pr of prs) {
-        prList.push(<PullRequestBoxRow pr={pr} repo={repo} key={pr.id} />);
-      }
+    for (const pr of prs) {
+      prList.push(<PullRequestBoxRow pr={pr} key={pr.id} />);
     }
 
     this.setState({ prList: prList });

@@ -2,7 +2,7 @@ import React from 'react';
 
 const PullRequestBoxRow = props => {
   return (
-    <li className="Box-row" key={props.pr.id}>
+    <li className="Box-row">
       <div className="text-small text-gray-light">
         <svg
           className="octicon octicon-repo"
@@ -19,45 +19,43 @@ const PullRequestBoxRow = props => {
         </svg>
         <span className="author">
           <a
-            href={props.repo.owner.html_url}
+            href={props.pr.repository.owner.url}
             className="url fn"
             target="_blank"
             rel="noopener noreferrer"
           >
-            {props.repo.owner.login}
+            {props.pr.repository.owner.login}
           </a>
         </span>
         <span className="path-divider">/</span>
         <strong>
           <a
-            href={props.repo.html_url}
+            href={props.pr.repository.url}
             target="_blank"
             rel="noopener noreferrer"
           >
-            {props.repo.name}
+            {props.pr.repository.name}
           </a>
         </strong>
       </div>
-      <a href={props.pr.html_url} target="_blank" rel="noopener noreferrer">
+      <a href={props.pr.url} target="_blank" rel="noopener noreferrer">
         {' '}
         #{props.pr.number}: {props.pr.title} ({props.pr.state})
       </a>
       <div className="text-small text-gray-light">
         <span>
-          <strong>Created at</strong>:{' '}
-          {new Date(props.pr.created_at).toString()}
+          <strong>Created at</strong>: {new Date(props.pr.createdAt).toString()}
         </span>
         <span>
-          <strong>Updated at</strong>:{' '}
-          {new Date(props.pr.updated_at).toString()}
+          <strong>Updated at</strong>: {new Date(props.pr.updatedAt).toString()}
         </span>
         <span>
           <strong>Closed at</strong>:{' '}
-          {props.pr.closed_at ? new Date(props.pr.closed_at).toString() : '-'}
+          {props.pr.closedAt ? new Date(props.pr.closedAt).toString() : '-'}
         </span>
         <span>
           <strong>Merged at</strong>:{' '}
-          {props.pr.merged_at ? new Date(props.pr.merged_at).toString() : '-'}
+          {props.pr.mergedAt ? new Date(props.pr.mergedAt).toString() : '-'}
         </span>
       </div>
     </li>
