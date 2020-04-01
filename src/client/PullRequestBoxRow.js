@@ -1,6 +1,6 @@
 import React from 'react';
 
-const PullRequestRow = props => {
+const PullRequestBoxRow = props => {
   return (
     <li className="Box-row" key={props.pr.id}>
       <div className="text-small text-gray-light">
@@ -64,4 +64,4 @@ const PullRequestRow = props => {
   );
 };
 
-export default PullRequestRow;
+export default PullRequestBoxRow;

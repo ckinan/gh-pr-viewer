@@ -1,7 +1,7 @@
 import React from 'react';
-import PullRequestRow from './PullRequestRow';
+import PullRequestBoxRow from './PullRequestBoxRow';
 
-class PullRequestView extends React.Component {
+class PullRequestBox extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -26,7 +26,7 @@ class PullRequestView extends React.Component {
       });
 
       for (const pr of prs) {
-        prList.push(<PullRequestRow pr={pr} repo={repo} key={pr.id} />);
+        prList.push(<PullRequestBoxRow pr={pr} repo={repo} key={pr.id} />);
       }
     }
 
@@ -67,4 +67,4 @@ class PullRequestView extends React.Component {
   }
 }
 
-export default PullRequestView;
+export default PullRequestBox;
