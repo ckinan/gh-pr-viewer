@@ -37,10 +37,6 @@ class PullRequestBox extends React.Component {
   render() {
     return (
       <>
-        <div className="pagehead">
-          <h1>Pull Requests</h1>
-        </div>
-
         <div className="Box Box--condensed">
           <div className="Box-header">
             <h3 className="Box-title">
