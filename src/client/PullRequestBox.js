@@ -1,6 +1,6 @@
 import React from 'react';
 import PullRequestBoxRow from './PullRequestBoxRow';
-import Octicon, { GitMerge } from '@primer/octicons-react';
+import Octicon, { GitPullRequest } from '@primer/octicons-react';
 
 class PullRequestBox extends React.Component {
   constructor(props) {
@@ -33,7 +33,7 @@ class PullRequestBox extends React.Component {
         <div className="Box">
           <div className="Box-header">
             <h3 className="Box-title">
-              <Octicon icon={GitMerge} className="mr-2" />
+              <Octicon icon={GitPullRequest} className="mr-2" />
               {this.state.isLoading ? '' : this.state.prList.length} Pull
               Requests
             </h3>
