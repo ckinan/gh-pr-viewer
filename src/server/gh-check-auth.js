@@ -1,7 +1,9 @@
-const fetch = require('node-fetch');
 const auth = require('./commons/auth');
+const graphqlRequest = require('graphql-request');
+const { GraphQLClient } = graphqlRequest;
+const endpoint = 'https://api.github.com/graphql';
 
-exports.handler = async function (event) {
+exports.handler = async function(event) {
   console.log(`Is token valid? ${auth.check(event)}`);
 
   try {
@@ -11,11 +13,14 @@ exports.handler = async function (event) {
         body: JSON.stringify({}),
       };
     }
-    const response = await fetch('https://api.github.com/user', {
-      method: 'GET',
-      headers: { Authorization: 'Bearer ' + auth.getToken(event) },
+    const graphQLClient = new GraphQLClient(endpoint, {
+      headers: {
+        authorization: `Bearer ${auth.getToken(event)}`,
+      },
     });
-    const data = await response.json();
+    const response = await graphQLClient.request(query);
+    const data = await response.viewer;
+
     return {
       statusCode: 200,
       body: JSON.stringify(data),
@@ -27,3 +32,9 @@ exports.handler = async function (event) {
     };
   }
 };
+
+const query = `{
+  viewer {
+    login
+  }
+}`;
