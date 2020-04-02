@@ -29,7 +29,7 @@ class PullRequestBox extends React.Component {
   render() {
     return (
       <>
-        <div className="Box Box--condensed">
+        <div className="Box">
           <div className="Box-header">
             <h3 className="Box-title">
               {this.state.isLoading ? '' : this.state.prList.length} Pull

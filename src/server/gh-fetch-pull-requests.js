@@ -44,6 +44,7 @@ const query = `{
         repository {
           name
           url
+          nameWithOwner
           owner {
             url
             login
