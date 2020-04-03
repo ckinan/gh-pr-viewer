@@ -33,8 +33,8 @@ class PullRequestBox extends React.Component {
         <div className="Box">
           <div className="Box-header">
             <h3 className="Box-title">
-              <div className="BtnGroup mr-2">
-                <button className="btn BtnGroup-item btn-outline" type="button">
+              <div className="mr-2">
+                <button className="btn btn-invisible bg-gray" type="button">
                   <Octicon icon={GitPullRequest} className="text-green mr-1" />
                   Open
                   <span className="Counter ml-1">
@@ -45,7 +45,7 @@ class PullRequestBox extends React.Component {
                         }).length}
                   </span>
                 </button>
-                <button className="btn BtnGroup-item btn-outline" type="button">
+                <button className="btn btn-invisible bg-gray" type="button">
                   <Octicon icon={GitPullRequest} className="text-red mr-1" />
                   Closed
                   <span className="Counter ml-1">
@@ -56,7 +56,7 @@ class PullRequestBox extends React.Component {
                         }).length}
                   </span>
                 </button>
-                <button className="btn BtnGroup-item btn-outline" type="button">
+                <button className="btn btn-invisible bg-gray" type="button">
                   <Octicon icon={GitMerge} className="text-purple mr-1" />
                   Merged
                   <span className="Counter ml-1">
