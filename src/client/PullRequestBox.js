@@ -100,8 +100,23 @@ class PullRequestBox extends React.Component {
                 </h2>
               </li>
             </ul>
-          ) : (
+          ) : this.state.prComponents.length > 0 ? (
             <ul>{this.state.prComponents}</ul>
+          ) : (
+            <div class="blankslate">
+              <img
+                src="https://ghicons.github.com/assets/images/light/Pull%20Request.png"
+                alt=""
+                class="mb-3"
+              />
+              <h3 class="mb-1">
+                You don't seem to have any pull requests to show...
+              </h3>
+              <p>
+                You may need to select other filters to show your pull requests
+                or you may not have any pull requests at all
+              </p>
+            </div>
           )}
         </div>
       </>
