@@ -103,13 +103,8 @@ class PullRequestBox extends React.Component {
           ) : this.state.prComponents.length > 0 ? (
             <ul>{this.state.prComponents}</ul>
           ) : (
-            <div class="blankslate">
-              <img
-                src="https://ghicons.github.com/assets/images/light/Pull%20Request.png"
-                alt=""
-                class="mb-3"
-              />
-              <h3 class="mb-1">
+            <div className="blankslate">
+              <h3 className="mb-1">
                 You don't seem to have any pull requests to show...
               </h3>
               <p>
