@@ -1,6 +1,6 @@
 import React from 'react';
 import PullRequestBoxRow from './PullRequestBoxRow';
-import Octicon, { GitPullRequest } from '@primer/octicons-react';
+import Octicon, { GitPullRequest, GitMerge } from '@primer/octicons-react';
 
 class PullRequestBox extends React.Component {
   constructor(props) {
@@ -33,9 +33,41 @@ class PullRequestBox extends React.Component {
         <div className="Box">
           <div className="Box-header">
             <h3 className="Box-title">
-              <Octicon icon={GitPullRequest} className="mr-2" />
-              {this.state.isLoading ? '' : this.state.prList.length} Pull
-              Requests
+              <div className="BtnGroup mr-2">
+                <button className="btn BtnGroup-item btn-outline" type="button">
+                  <Octicon icon={GitPullRequest} className="text-green mr-1" />
+                  Open
+                  <span className="Counter ml-1">
+                    {this.state.isLoading
+                      ? '0'
+                      : this.state.prList.filter(comp => {
+                          return comp.props.pr.state === 'OPEN';
+                        }).length}
+                  </span>
+                </button>
+                <button className="btn BtnGroup-item btn-outline" type="button">
+                  <Octicon icon={GitPullRequest} className="text-red mr-1" />
+                  Closed
+                  <span className="Counter ml-1">
+                    {this.state.isLoading
+                      ? '0'
+                      : this.state.prList.filter(comp => {
+                          return comp.props.pr.state === 'CLOSED';
+                        }).length}
+                  </span>
+                </button>
+                <button className="btn BtnGroup-item btn-outline" type="button">
+                  <Octicon icon={GitMerge} className="text-purple mr-1" />
+                  Merged
+                  <span className="Counter ml-1">
+                    {this.state.isLoading
+                      ? '0'
+                      : this.state.prList.filter(comp => {
+                          return comp.props.pr.state === 'MERGED';
+                        }).length}
+                  </span>
+                </button>
+              </div>
             </h3>
           </div>
 
