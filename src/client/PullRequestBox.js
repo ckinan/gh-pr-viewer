@@ -6,7 +6,8 @@ class PullRequestBox extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      prList: [],
+      prs: [],
+      prComponents: [],
       isLoading: true,
     };
   }
@@ -18,13 +19,20 @@ class PullRequestBox extends React.Component {
       }
     );
 
-    let prList = [];
-    for (const pr of prs) {
-      prList.push(<PullRequestBoxRow pr={pr} key={pr.id} />);
+    this.setState({ prs: prs });
+    this.setState({ isLoading: false });
+    this.handleFilterByState('OPEN');
+  }
+
+  handleFilterByState(state) {
+    let prComponents = [];
+    for (const pr of this.state.prs) {
+      if (pr.state === state) {
+        prComponents.push(<PullRequestBoxRow pr={pr} key={pr.id} />);
+      }
     }
 
-    this.setState({ prList: prList });
-    this.setState({ isLoading: false });
+    this.setState({ prComponents: prComponents });
   }
 
   render() {
@@ -34,36 +42,48 @@ class PullRequestBox extends React.Component {
           <div className="Box-header">
             <h3 className="Box-title">
               <div className="mr-2">
-                <button className="btn btn-invisible bg-gray" type="button">
+                <button
+                  className="btn btn-invisible bg-gray"
+                  type="button"
+                  onClick={() => this.handleFilterByState('OPEN')}
+                >
                   <Octicon icon={GitPullRequest} className="text-green mr-1" />
                   Open
                   <span className="Counter ml-1">
                     {this.state.isLoading
                       ? '0'
-                      : this.state.prList.filter(comp => {
-                          return comp.props.pr.state === 'OPEN';
+                      : this.state.prs.filter(pr => {
+                          return pr.state === 'OPEN';
                         }).length}
                   </span>
                 </button>
-                <button className="btn btn-invisible bg-gray" type="button">
+                <button
+                  className="btn btn-invisible bg-gray"
+                  type="button"
+                  onClick={() => this.handleFilterByState('CLOSED')}
+                >
                   <Octicon icon={GitPullRequest} className="text-red mr-1" />
                   Closed
                   <span className="Counter ml-1">
                     {this.state.isLoading
                       ? '0'
-                      : this.state.prList.filter(comp => {
-                          return comp.props.pr.state === 'CLOSED';
+                      : this.state.prs.filter(pr => {
+                          return pr.state === 'CLOSED';
                         }).length}
                   </span>
                 </button>
-                <button className="btn btn-invisible bg-gray" type="button">
+                <button
+                  className="btn btn-invisible bg-gray"
+                  type="button"
+                  onClick={() => this.handleFilterByState('MERGED')}
+                >
                   <Octicon icon={GitMerge} className="text-purple mr-1" />
                   Merged
                   <span className="Counter ml-1">
                     {this.state.isLoading
                       ? '0'
-                      : this.state.prList.filter(comp => {
-                          return comp.props.pr.state === 'MERGED';
+                      : this.state.prs.filter(pr => {
+                          return pr.state === 'MERGED';
                         }).length}
                   </span>
                 </button>
@@ -81,7 +101,7 @@ class PullRequestBox extends React.Component {
               </li>
             </ul>
           ) : (
-            <ul>{this.state.prList}</ul>
+            <ul>{this.state.prComponents}</ul>
           )}
         </div>
       </>
