@@ -104,9 +104,7 @@ class PullRequestBox extends React.Component {
             <ul>{this.state.prComponents}</ul>
           ) : (
             <div className="blankslate">
-              <h3 className="mb-1">
-                You don't seem to have any pull requests to show...
-              </h3>
+              <h3 className="mb-1">No results matched your search.</h3>
               <p>
                 You may need to select other filters to show your pull requests
                 or you may not have any pull requests at all
