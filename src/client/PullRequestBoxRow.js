@@ -1,8 +1,12 @@
 import React from 'react';
-import Octicon, { GitMerge, GitPullRequest } from '@primer/octicons-react';
+import Octicon, {
+  GitMerge,
+  GitPullRequest,
+  Flame,
+} from '@primer/octicons-react';
 import moment from 'moment';
 
-const PullRequestBoxRow = props => {
+const PullRequestBoxRow = (props) => {
   return (
     <li className="Box-row">
       <div>
@@ -87,6 +91,17 @@ const PullRequestBoxRow = props => {
               </span>
             </div>
           </div>
+
+          {props.pr.timelineItems.nodes.map((node) => {
+            return (
+              <div class="TimelineItem TimelineItem--condensed mt-2">
+                <div class="TimelineItem-badge">
+                  <Octicon icon={Flame} className="text-red" />
+                </div>
+                <div class="TimelineItem-body">{node.__typename}</div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </li>

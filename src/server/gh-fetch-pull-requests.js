@@ -3,7 +3,7 @@ const graphqlRequest = require('graphql-request');
 const { GraphQLClient } = graphqlRequest;
 const endpoint = 'https://api.github.com/graphql';
 
-exports.handler = async function(event) {
+exports.handler = async function (event) {
   console.log(`Is token valid? ${auth.check(event)}`);
 
   try {
@@ -13,8 +13,9 @@ exports.handler = async function(event) {
       },
     });
     const response = await graphQLClient.request(query);
-    const data = await response.viewer.pullRequests.nodes;
-
+    const data = response.search.edges.map((edge) => {
+      return edge.node;
+    });
     return {
       statusCode: 200,
       body: JSON.stringify(data),
@@ -29,25 +30,72 @@ exports.handler = async function(event) {
 };
 
 const query = `{
-  viewer {
-    pullRequests(first: 100) {
-      nodes {
-        id
-        title
-        number
-        url
-        state
-        updatedAt
-        createdAt
-        closedAt
-        mergedAt
-        repository {
-          name
+  __typename
+  search(query: "involves:ckinan is:pr is:open", type: ISSUE, first: 10) {
+    edges {
+      node {
+        ... on PullRequest {
+          id
+          title
+          number
           url
-          nameWithOwner
-          owner {
+          state
+          updatedAt
+          createdAt
+          closedAt
+          mergedAt
+          repository {
+            name
             url
-            login
+            nameWithOwner
+            owner {
+              url
+              login
+            }
+          }
+          timelineItems(first: 10, itemTypes: [REVIEW_REQUESTED_EVENT, PULL_REQUEST_REVIEW, PULL_REQUEST_COMMIT, ISSUE_COMMENT]) {
+            nodes {
+              __typename
+              ... on ReviewRequestedEvent {
+                id
+                actor {
+                  login
+                }
+                createdAt
+                requestedReviewer {
+                  ... on User {
+                    id
+                    email
+                    login
+                  }
+                }
+              }
+              ... on PullRequestReview {
+                id
+                author {
+                  login
+                }
+                submittedAt
+                state
+              }
+              ... on PullRequestCommit {
+                id
+                commit {
+                  message
+                  committedDate
+                  abbreviatedOid
+                  oid
+                }
+              }
+              ... on IssueComment {
+                id
+                author {
+                  login
+                }
+                updatedAt
+                url
+              }
+            }
           }
         }
       }
