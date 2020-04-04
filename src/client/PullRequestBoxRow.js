@@ -3,6 +3,12 @@ import Octicon, {
   GitMerge,
   GitPullRequest,
   Flame,
+  Eye,
+  GitCommit,
+  Comment,
+  Check,
+  RequestChanges,
+  Info,
 } from '@primer/octicons-react';
 import moment from 'moment';
 
@@ -41,7 +47,7 @@ const PullRequestBoxRow = (props) => {
             </strong>
           </div>
 
-          <div className="d-table text-small text-gray-light">
+          <div className="d-table text-small text-gray-light mb-2">
             <div className="float-md-left pr-3">
               <strong>Created at</strong>:{' '}
               <span
@@ -94,12 +100,153 @@ const PullRequestBoxRow = (props) => {
 
           {props.pr.timelineItems.nodes.map((node) => {
             return (
-              <div class="TimelineItem TimelineItem--condensed mt-2">
-                <div class="TimelineItem-badge">
-                  <Octicon icon={Flame} className="text-red" />
-                </div>
-                <div class="TimelineItem-body">{node.__typename}</div>
-              </div>
+              <>
+                {node.__typename === 'PullRequestCommit' ? (
+                  <div class="TimelineItem TimelineItem--condensed">
+                    <div class="TimelineItem-badge">
+                      <Octicon icon={GitCommit} className="text-gray" />
+                    </div>
+                    <div class="TimelineItem-body">
+                      <span
+                        className="tooltipped tooltipped-s"
+                        aria-label={
+                          node.commit.committedDate
+                            ? new Date(node.commit.committedDate).toString()
+                            : '-'
+                        }
+                      >
+                        {node.commit.committedDate
+                          ? moment.utc(node.commit.committedDate).fromNow()
+                          : '-'}
+                        {': '}
+                      </span>
+                      {node.commit.message} {node.commit.abbreviatedOid}
+                    </div>
+                  </div>
+                ) : node.__typename === 'ReviewRequestedEvent' ? (
+                  <div class="TimelineItem TimelineItem--condensed">
+                    <div class="TimelineItem-badge">
+                      <Octicon icon={Eye} className="text-gray" />
+                    </div>
+                    <div class="TimelineItem-body">
+                      <span
+                        className="tooltipped tooltipped-s"
+                        aria-label={
+                          node.createdAt
+                            ? new Date(node.createdAt).toString()
+                            : '-'
+                        }
+                      >
+                        {node.createdAt
+                          ? moment.utc(node.createdAt).fromNow()
+                          : '-'}
+                        {': '}
+                      </span>
+                      {node.actor.login} requested a review from{' '}
+                      {node.requestedReviewer.login}
+                    </div>
+                  </div>
+                ) : node.__typename === 'IssueComment' ? (
+                  <div class="TimelineItem TimelineItem--condensed">
+                    <div class="TimelineItem-badge">
+                      <Octicon icon={Comment} className="text-gray" />
+                    </div>
+                    <div class="TimelineItem-body">
+                      <span
+                        className="tooltipped tooltipped-s"
+                        aria-label={
+                          node.updatedAt
+                            ? new Date(node.updatedAt).toString()
+                            : '-'
+                        }
+                      >
+                        {node.updatedAt
+                          ? moment.utc(node.updatedAt).fromNow()
+                          : '-'}
+                        {': '}
+                      </span>
+                      {node.author.login} wrote a comment
+                    </div>
+                  </div>
+                ) : node.__typename === 'PullRequestReview' ? (
+                  <div class="TimelineItem TimelineItem--condensed">
+                    {node.state === 'APPROVED' ? (
+                      <>
+                        <div class="TimelineItem-badge">
+                          <Octicon icon={Check} className="text-green" />
+                        </div>
+                        <div class="TimelineItem-body">
+                          <span
+                            className="tooltipped tooltipped-s"
+                            aria-label={
+                              node.submittedAt
+                                ? new Date(node.submittedAt).toString()
+                                : '-'
+                            }
+                          >
+                            {node.submittedAt
+                              ? moment.utc(node.submittedAt).fromNow()
+                              : '-'}
+                            {': '}
+                          </span>
+                          {node.author.login} approved these changes
+                        </div>
+                      </>
+                    ) : node.state === 'CHANGES_REQUESTED' ? (
+                      <>
+                        <div class="TimelineItem-badge">
+                          <Octicon icon={RequestChanges} className="text-red" />
+                        </div>
+                        <div class="TimelineItem-body">
+                          <span
+                            className="tooltipped tooltipped-s"
+                            aria-label={
+                              node.submittedAt
+                                ? new Date(node.submittedAt).toString()
+                                : '-'
+                            }
+                          >
+                            {node.submittedAt
+                              ? moment.utc(node.submittedAt).fromNow()
+                              : '-'}
+                            {': '}
+                          </span>
+                          {node.author.login} requested changes
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <div class="TimelineItem-badge">
+                          <Octicon icon={Info} className="text-gray" />
+                        </div>
+                        <div class="TimelineItem-body">
+                          <span
+                            className="tooltipped tooltipped-s"
+                            aria-label={
+                              node.submittedAt
+                                ? new Date(node.submittedAt).toString()
+                                : '-'
+                            }
+                          >
+                            {node.submittedAt
+                              ? moment.utc(node.submittedAt).fromNow()
+                              : '-'}
+                            {': '}
+                          </span>
+                          {node.author.login} reviewed
+                        </div>
+                      </>
+                    )}
+                  </div>
+                ) : (
+                  <div class="TimelineItem TimelineItem--condensed">
+                    <div class="TimelineItem-badge">
+                      <Octicon icon={Flame} className="text-red" />
+                    </div>
+                    <div class="TimelineItem-body">{node.__typename}</div>
+                  </div>
+                )}
+              </>
             );
           })}
         </div>
