@@ -102,11 +102,11 @@ const PullRequestBoxRow = (props) => {
             return (
               <>
                 {node.__typename === 'PullRequestCommit' ? (
-                  <div class="TimelineItem TimelineItem--condensed">
-                    <div class="TimelineItem-badge">
+                  <div className="TimelineItem TimelineItem--condensed">
+                    <div className="TimelineItem-badge">
                       <Octicon icon={GitCommit} className="text-gray" />
                     </div>
-                    <div class="TimelineItem-body">
+                    <div className="TimelineItem-body">
                       <img
                         className="avatar mr-1"
                         height="20"
@@ -130,11 +130,11 @@ const PullRequestBoxRow = (props) => {
                     </div>
                   </div>
                 ) : node.__typename === 'ReviewRequestedEvent' ? (
-                  <div class="TimelineItem TimelineItem--condensed">
-                    <div class="TimelineItem-badge">
+                  <div className="TimelineItem TimelineItem--condensed">
+                    <div className="TimelineItem-badge">
                       <Octicon icon={Eye} className="text-gray" />
                     </div>
-                    <div class="TimelineItem-body">
+                    <div className="TimelineItem-body">
                       <img
                         className="avatar mr-1"
                         height="20"
@@ -159,11 +159,11 @@ const PullRequestBoxRow = (props) => {
                     </div>
                   </div>
                 ) : node.__typename === 'IssueComment' ? (
-                  <div class="TimelineItem TimelineItem--condensed">
-                    <div class="TimelineItem-badge">
+                  <div className="TimelineItem TimelineItem--condensed">
+                    <div className="TimelineItem-badge">
                       <Octicon icon={Comment} className="text-gray" />
                     </div>
-                    <div class="TimelineItem-body">
+                    <div className="TimelineItem-body">
                       <img
                         className="avatar mr-1"
                         height="20"
@@ -187,13 +187,13 @@ const PullRequestBoxRow = (props) => {
                     </div>
                   </div>
                 ) : node.__typename === 'PullRequestReview' ? (
-                  <div class="TimelineItem TimelineItem--condensed">
+                  <div className="TimelineItem TimelineItem--condensed">
                     {node.state === 'APPROVED' ? (
                       <>
-                        <div class="TimelineItem-badge">
+                        <div className="TimelineItem-badge">
                           <Octicon icon={Check} className="text-green" />
                         </div>
-                        <div class="TimelineItem-body">
+                        <div className="TimelineItem-body">
                           <img
                             className="avatar mr-1"
                             height="20"
@@ -218,10 +218,10 @@ const PullRequestBoxRow = (props) => {
                       </>
                     ) : node.state === 'CHANGES_REQUESTED' ? (
                       <>
-                        <div class="TimelineItem-badge">
+                        <div className="TimelineItem-badge">
                           <Octicon icon={RequestChanges} className="text-red" />
                         </div>
-                        <div class="TimelineItem-body">
+                        <div className="TimelineItem-body">
                           <img
                             className="avatar mr-1"
                             height="20"
@@ -246,10 +246,10 @@ const PullRequestBoxRow = (props) => {
                       </>
                     ) : (
                       <>
-                        <div class="TimelineItem-badge">
+                        <div className="TimelineItem-badge">
                           <Octicon icon={Info} className="text-gray" />
                         </div>
-                        <div class="TimelineItem-body">
+                        <div className="TimelineItem-body">
                           <img
                             className="avatar mr-1"
                             height="20"
@@ -275,17 +275,17 @@ const PullRequestBoxRow = (props) => {
                     )}
                   </div>
                 ) : (
-                  <div class="TimelineItem TimelineItem--condensed">
+                  <div className="TimelineItem TimelineItem--condensed">
                     <img
                       className="avatar mr-1"
                       height="20"
                       width="20"
                       src={node.author.avatarUrl}
                     />
-                    <div class="TimelineItem-badge">
+                    <div className="TimelineItem-badge">
                       <Octicon icon={Flame} className="text-red" />
                     </div>
-                    <div class="TimelineItem-body">{node.__typename}</div>
+                    <div className="TimelineItem-body">{node.__typename}</div>
                   </div>
                 )}
               </>

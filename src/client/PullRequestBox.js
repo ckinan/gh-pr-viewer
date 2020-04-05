@@ -1,6 +1,6 @@
 import React from 'react';
 import PullRequestBoxRow from './PullRequestBoxRow';
-import Octicon, { GitPullRequest, GitMerge } from '@primer/octicons-react';
+import StateFilterButton from './StateFilterButton';
 
 class PullRequestBox extends React.Component {
   constructor(props) {
@@ -14,7 +14,7 @@ class PullRequestBox extends React.Component {
 
   async componentDidMount() {
     let prs = await fetch('/.netlify/functions/gh-fetch-pull-requests').then(
-      function(response) {
+      function (response) {
         return response.json();
       }
     );
@@ -24,7 +24,7 @@ class PullRequestBox extends React.Component {
     this.handleFilterByState('OPEN');
   }
 
-  handleFilterByState(state) {
+  handleFilterByState = (state) => {
     let prComponents = [];
     for (const pr of this.state.prs) {
       if (pr.state === state) {
@@ -33,7 +33,7 @@ class PullRequestBox extends React.Component {
     }
 
     this.setState({ prComponents: prComponents });
-  }
+  };
 
   render() {
     return (
@@ -42,51 +42,16 @@ class PullRequestBox extends React.Component {
           <div className="Box-header">
             <h3 className="Box-title">
               <div className="mr-2">
-                <button
-                  className="btn btn-invisible bg-gray"
-                  type="button"
-                  onClick={() => this.handleFilterByState('OPEN')}
-                >
-                  <Octicon icon={GitPullRequest} className="text-green mr-1" />
-                  Open
-                  <span className="Counter ml-1">
-                    {this.state.isLoading
-                      ? '0'
-                      : this.state.prs.filter(pr => {
-                          return pr.state === 'OPEN';
-                        }).length}
-                  </span>
-                </button>
-                <button
-                  className="btn btn-invisible bg-gray"
-                  type="button"
-                  onClick={() => this.handleFilterByState('CLOSED')}
-                >
-                  <Octicon icon={GitPullRequest} className="text-red mr-1" />
-                  Closed
-                  <span className="Counter ml-1">
-                    {this.state.isLoading
-                      ? '0'
-                      : this.state.prs.filter(pr => {
-                          return pr.state === 'CLOSED';
-                        }).length}
-                  </span>
-                </button>
-                <button
-                  className="btn btn-invisible bg-gray"
-                  type="button"
-                  onClick={() => this.handleFilterByState('MERGED')}
-                >
-                  <Octicon icon={GitMerge} className="text-purple mr-1" />
-                  Merged
-                  <span className="Counter ml-1">
-                    {this.state.isLoading
-                      ? '0'
-                      : this.state.prs.filter(pr => {
-                          return pr.state === 'MERGED';
-                        }).length}
-                  </span>
-                </button>
+                {['OPEN', 'CLOSED', 'MERGED'].map((state) => {
+                  return (
+                    <StateFilterButton
+                      handleFilterByState={this.handleFilterByState}
+                      state={state}
+                      isLoading={this.state.isLoading}
+                      prs={this.state.prs}
+                    />
+                  );
+                })}
               </div>
             </h3>
           </div>
