@@ -100,7 +100,7 @@ const PullRequestBoxRow = (props) => {
 
           {props.pr.timelineItems.nodes.map((node) => {
             return (
-              <>
+              <React.Fragment key={node.id}>
                 {node.__typename === 'PullRequestCommit' ? (
                   <div className="TimelineItem TimelineItem--condensed">
                     <div className="TimelineItem-badge">
@@ -112,6 +112,7 @@ const PullRequestBoxRow = (props) => {
                         height="20"
                         width="20"
                         src={node.commit.author.user.avatarUrl}
+                        alt="prItem"
                       />
                       <span
                         className="tooltipped tooltipped-s"
@@ -140,6 +141,7 @@ const PullRequestBoxRow = (props) => {
                         height="20"
                         width="20"
                         src={node.actor.avatarUrl}
+                        alt="prItem"
                       />
                       <span
                         className="tooltipped tooltipped-s"
@@ -169,6 +171,7 @@ const PullRequestBoxRow = (props) => {
                         height="20"
                         width="20"
                         src={node.author.avatarUrl}
+                        alt="prItem"
                       />
                       <span
                         className="tooltipped tooltipped-s"
@@ -199,6 +202,7 @@ const PullRequestBoxRow = (props) => {
                             height="20"
                             width="20"
                             src={node.author.avatarUrl}
+                            alt="prItem"
                           />
                           <span
                             className="tooltipped tooltipped-s"
@@ -227,6 +231,7 @@ const PullRequestBoxRow = (props) => {
                             height="20"
                             width="20"
                             src={node.author.avatarUrl}
+                            alt="prItem"
                           />
                           <span
                             className="tooltipped tooltipped-s"
@@ -255,6 +260,7 @@ const PullRequestBoxRow = (props) => {
                             height="20"
                             width="20"
                             src={node.author.avatarUrl}
+                            alt="prItem"
                           />
                           <span
                             className="tooltipped tooltipped-s"
@@ -281,6 +287,7 @@ const PullRequestBoxRow = (props) => {
                       height="20"
                       width="20"
                       src={node.author.avatarUrl}
+                      alt="prItem"
                     />
                     <div className="TimelineItem-badge">
                       <Octicon icon={Flame} className="text-red" />
@@ -288,7 +295,7 @@ const PullRequestBoxRow = (props) => {
                     <div className="TimelineItem-body">{node.__typename}</div>
                   </div>
                 )}
-              </>
+              </React.Fragment>
             );
           })}
         </div>

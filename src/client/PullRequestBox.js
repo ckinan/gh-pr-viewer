@@ -1,6 +1,6 @@
 import React from 'react';
 import PullRequestBoxRow from './PullRequestBoxRow';
-import StateFilterButton from './StateFilterButton';
+import PullRequestBoxHeader from './PullRequestBoxHeader';
 
 class PullRequestBox extends React.Component {
   constructor(props) {
@@ -39,22 +39,11 @@ class PullRequestBox extends React.Component {
     return (
       <>
         <div className="Box">
-          <div className="Box-header">
-            <h3 className="Box-title">
-              <div className="mr-2">
-                {['OPEN', 'CLOSED', 'MERGED'].map((state) => {
-                  return (
-                    <StateFilterButton
-                      handleFilterByState={this.handleFilterByState}
-                      state={state}
-                      isLoading={this.state.isLoading}
-                      prs={this.state.prs}
-                    />
-                  );
-                })}
-              </div>
-            </h3>
-          </div>
+          <PullRequestBoxHeader
+            handleFilterByState={this.handleFilterByState}
+            isLoading={this.state.isLoading}
+            prs={this.state.prs}
+          />
 
           {this.state.isLoading ? (
             <ul>
