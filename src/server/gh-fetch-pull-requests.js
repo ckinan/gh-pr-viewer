@@ -31,7 +31,7 @@ exports.handler = async function (event) {
 
 const query = `{
   __typename
-  search(query: "involves:ckinan is:open is:pr ", type: ISSUE, first: 10) {
+  search(query: "involves:ckinan is:open is:pr ", type: ISSUE, first: 100) {
     edges {
       node {
         ... on PullRequest {
@@ -53,7 +53,7 @@ const query = `{
               login
             }
           }
-          timelineItems(first: 10, itemTypes: [REVIEW_REQUESTED_EVENT, PULL_REQUEST_REVIEW, PULL_REQUEST_COMMIT, ISSUE_COMMENT]) {
+          timelineItems(first: 100, itemTypes: [REVIEW_REQUESTED_EVENT, PULL_REQUEST_REVIEW, PULL_REQUEST_COMMIT, ISSUE_COMMENT]) {
             nodes {
               __typename
               ... on ReviewRequestedEvent {
@@ -105,6 +105,9 @@ const query = `{
                 url
               }
             }
+          }
+          author {
+            login
           }
         }
       }
