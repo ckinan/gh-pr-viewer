@@ -31,7 +31,7 @@ exports.handler = async function (event) {
 
 const query = `{
   __typename
-  search(query: "involves:ckinan is:pr is:open", type: ISSUE, first: 10) {
+  search(query: "involves:ckinan is:open is:pr ", type: ISSUE, first: 10) {
     edges {
       node {
         ... on PullRequest {
@@ -60,6 +60,7 @@ const query = `{
                 id
                 actor {
                   login
+                  avatarUrl
                 }
                 createdAt
                 requestedReviewer {
@@ -74,6 +75,7 @@ const query = `{
                 id
                 author {
                   login
+                  avatarUrl
                 }
                 submittedAt
                 state
@@ -85,12 +87,19 @@ const query = `{
                   committedDate
                   abbreviatedOid
                   oid
+                  author {
+                    user {
+                      login
+                      avatarUrl
+                    }
+                  }
                 }
               }
               ... on IssueComment {
                 id
                 author {
                   login
+                  avatarUrl
                 }
                 updatedAt
                 url

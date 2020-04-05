@@ -107,6 +107,12 @@ const PullRequestBoxRow = (props) => {
                       <Octicon icon={GitCommit} className="text-gray" />
                     </div>
                     <div class="TimelineItem-body">
+                      <img
+                        className="avatar mr-1"
+                        height="20"
+                        width="20"
+                        src={node.commit.author.user.avatarUrl}
+                      />
                       <span
                         className="tooltipped tooltipped-s"
                         aria-label={
@@ -129,6 +135,12 @@ const PullRequestBoxRow = (props) => {
                       <Octicon icon={Eye} className="text-gray" />
                     </div>
                     <div class="TimelineItem-body">
+                      <img
+                        className="avatar mr-1"
+                        height="20"
+                        width="20"
+                        src={node.actor.avatarUrl}
+                      />
                       <span
                         className="tooltipped tooltipped-s"
                         aria-label={
@@ -152,6 +164,12 @@ const PullRequestBoxRow = (props) => {
                       <Octicon icon={Comment} className="text-gray" />
                     </div>
                     <div class="TimelineItem-body">
+                      <img
+                        className="avatar mr-1"
+                        height="20"
+                        width="20"
+                        src={node.author.avatarUrl}
+                      />
                       <span
                         className="tooltipped tooltipped-s"
                         aria-label={
@@ -176,6 +194,12 @@ const PullRequestBoxRow = (props) => {
                           <Octicon icon={Check} className="text-green" />
                         </div>
                         <div class="TimelineItem-body">
+                          <img
+                            className="avatar mr-1"
+                            height="20"
+                            width="20"
+                            src={node.author.avatarUrl}
+                          />
                           <span
                             className="tooltipped tooltipped-s"
                             aria-label={
@@ -198,6 +222,12 @@ const PullRequestBoxRow = (props) => {
                           <Octicon icon={RequestChanges} className="text-red" />
                         </div>
                         <div class="TimelineItem-body">
+                          <img
+                            className="avatar mr-1"
+                            height="20"
+                            width="20"
+                            src={node.author.avatarUrl}
+                          />
                           <span
                             className="tooltipped tooltipped-s"
                             aria-label={
@@ -220,6 +250,12 @@ const PullRequestBoxRow = (props) => {
                           <Octicon icon={Info} className="text-gray" />
                         </div>
                         <div class="TimelineItem-body">
+                          <img
+                            className="avatar mr-1"
+                            height="20"
+                            width="20"
+                            src={node.author.avatarUrl}
+                          />
                           <span
                             className="tooltipped tooltipped-s"
                             aria-label={
@@ -240,6 +276,12 @@ const PullRequestBoxRow = (props) => {
                   </div>
                 ) : (
                   <div class="TimelineItem TimelineItem--condensed">
+                    <img
+                      className="avatar mr-1"
+                      height="20"
+                      width="20"
+                      src={node.author.avatarUrl}
+                    />
                     <div class="TimelineItem-badge">
                       <Octicon icon={Flame} className="text-red" />
                     </div>
