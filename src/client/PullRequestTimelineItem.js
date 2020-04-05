@@ -39,4 +39,59 @@ const PullRequestTimelineItem = (props) => {
   );
 };
 
+const timelineItemConfig = {
+  PullRequestCommit: {
+    icon: GitCommit,
+    className: 'text-gray',
+    avatarUrl: (node) => {
+      return node.commit.author.user.avatarUrl;
+    },
+    date: (node) => {
+      return node.commit.committedDate;
+    },
+    text: (node) => {
+      return `${node.commit.message} ${node.commit.abbreviatedOid}`;
+    },
+  },
+  ReviewRequestedEvent: {
+    icon: Eye,
+    className: 'text-gray',
+    avatarUrl: (node) => {
+      return node.actor.avatarUrl;
+    },
+    date: (node) => {
+      return node.createdAt;
+    },
+    text: (node) => {
+      return `${node.actor.login} requested a review from ${node.requestedReviewer.login}`;
+    },
+  },
+  IssueComment: {
+    icon: Comment,
+    className: 'text-gray',
+    avatarUrl: (node) => {
+      return node.author.avatarUrl;
+    },
+    date: (node) => {
+      return node.updatedAt;
+    },
+    text: (node) => {
+      return `${node.author.login} wrote a comment`;
+    },
+  },
+  PullRequestReview: {
+    icon: Comment,
+    className: 'text-gray',
+    avatarUrl: (node) => {
+      return node.author.avatarUrl;
+    },
+    date: (node) => {
+      return node.updatedAt;
+    },
+    text: (node) => {
+      return `${node.author.login} wrote a comment`;
+    },
+  },
+};
+
 export default PullRequestTimelineItem;

@@ -105,6 +105,7 @@ const PullRequestBoxRow = (props) => {
           {props.pr.timelineItems.nodes.map((node) => {
             return (
               <React.Fragment key={node.id}>
+                {/*<PullRequestTimelineItem key={node.id} type={node.__typename} node={node}/>*/}
                 {node.__typename === 'PullRequestCommit' ? (
                   <PullRequestTimelineItem
                     icon={GitCommit}
