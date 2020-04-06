@@ -1,15 +1,5 @@
 import React from 'react';
-import Octicon, {
-  GitMerge,
-  GitPullRequest,
-  Flame,
-  Eye,
-  GitCommit,
-  Comment,
-  Check,
-  RequestChanges,
-  Info,
-} from '@primer/octicons-react';
+import Octicon, { GitMerge, GitPullRequest } from '@primer/octicons-react';
 import moment from 'moment';
 import PullRequestTimelineItem from './PullRequestTimelineItem';
 
@@ -104,69 +94,11 @@ const PullRequestBoxRow = (props) => {
 
           {props.pr.timelineItems.nodes.map((node) => {
             return (
-              <React.Fragment key={node.id}>
-                {/*<PullRequestTimelineItem key={node.id} type={node.__typename} node={node}/>*/}
-                {node.__typename === 'PullRequestCommit' ? (
-                  <PullRequestTimelineItem
-                    icon={GitCommit}
-                    className="text-gray"
-                    avatarUrl={node.commit.author.user.avatarUrl}
-                    date={node.commit.committedDate}
-                    text={`${node.commit.message} ${node.commit.abbreviatedOid}`}
-                  />
-                ) : node.__typename === 'ReviewRequestedEvent' ? (
-                  <PullRequestTimelineItem
-                    icon={Eye}
-                    className="text-gray"
-                    avatarUrl={node.actor.avatarUrl}
-                    date={node.createdAt}
-                    text={`${node.actor.login} requested a review from ${node.requestedReviewer.login}`}
-                  />
-                ) : node.__typename === 'IssueComment' ? (
-                  <PullRequestTimelineItem
-                    icon={Comment}
-                    className="text-gray"
-                    avatarUrl={node.author.avatarUrl}
-                    date={node.updatedAt}
-                    text={`${node.author.login} wrote a comment`}
-                  />
-                ) : node.__typename === 'PullRequestReview' &&
-                  node.state === 'APPROVED' ? (
-                  <PullRequestTimelineItem
-                    icon={Check}
-                    className="text-green"
-                    avatarUrl={node.author.avatarUrl}
-                    date={node.submittedAt}
-                    text={`${node.author.login} approved these changes`}
-                  />
-                ) : node.__typename === 'PullRequestReview' &&
-                  node.state === 'CHANGES_REQUESTED' ? (
-                  <PullRequestTimelineItem
-                    icon={RequestChanges}
-                    className="text-red"
-                    avatarUrl={node.author.avatarUrl}
-                    date={node.submittedAt}
-                    text={`${node.author.login} requested changes`}
-                  />
-                ) : node.__typename === 'PullRequestReview' &&
-                  node.state === 'COMMENTED' ? (
-                  <PullRequestTimelineItem
-                    icon={Info}
-                    className="text-gray"
-                    avatarUrl={node.author.avatarUrl}
-                    date={node.submittedAt}
-                    text={`${node.author.login} reviewed`}
-                  />
-                ) : (
-                  <PullRequestTimelineItem
-                    icon={Info}
-                    className="text-gray"
-                    avatarUrl="-"
-                    date="-"
-                    text={`${node.__typename} event happened`}
-                  />
-                )}
-              </React.Fragment>
+              <PullRequestTimelineItem
+                key={node.id}
+                type={node.__typename}
+                node={node}
+              />
             );
           })}
         </div>

@@ -1,8 +1,5 @@
 import React from 'react';
 import Octicon, {
-  GitMerge,
-  GitPullRequest,
-  Flame,
   Eye,
   GitCommit,
   Comment,
@@ -16,24 +13,37 @@ const PullRequestTimelineItem = (props) => {
   return (
     <div className="TimelineItem TimelineItem--condensed">
       <div className="TimelineItem-badge">
-        <Octicon icon={props.icon} className={props.className} />
+        <Octicon
+          icon={timelineItemConfig[props.type].icon(props.node)}
+          className={timelineItemConfig[props.type].className(props.node)}
+        />
       </div>
       <div className="TimelineItem-body">
         <img
           className="avatar mr-1"
           height="20"
           width="20"
-          src={props.avatarUrl}
+          src={timelineItemConfig[props.type].avatarUrl(props.node)}
           alt="prItem"
         />
         <span
           className="tooltipped tooltipped-s"
-          aria-label={props.date ? new Date(props.date).toString() : '-'}
+          aria-label={
+            timelineItemConfig[props.type].date(props.node)
+              ? new Date(
+                  timelineItemConfig[props.type].date(props.node)
+                ).toString()
+              : '-'
+          }
         >
-          {props.date ? moment.utc(props.date).fromNow() : '-'}
+          {timelineItemConfig[props.type].date(props.node)
+            ? moment
+                .utc(timelineItemConfig[props.type].date(props.node))
+                .fromNow()
+            : '-'}
           {': '}
         </span>
-        {props.text}
+        {timelineItemConfig[props.type].text(props.node)}
       </div>
     </div>
   );
@@ -41,8 +51,12 @@ const PullRequestTimelineItem = (props) => {
 
 const timelineItemConfig = {
   PullRequestCommit: {
-    icon: GitCommit,
-    className: 'text-gray',
+    icon: () => {
+      return GitCommit;
+    },
+    className: () => {
+      return 'text-gray';
+    },
     avatarUrl: (node) => {
       return node.commit.author.user.avatarUrl;
     },
@@ -54,8 +68,12 @@ const timelineItemConfig = {
     },
   },
   ReviewRequestedEvent: {
-    icon: Eye,
-    className: 'text-gray',
+    icon: () => {
+      return Eye;
+    },
+    className: () => {
+      return 'text-gray';
+    },
     avatarUrl: (node) => {
       return node.actor.avatarUrl;
     },
@@ -67,8 +85,12 @@ const timelineItemConfig = {
     },
   },
   IssueComment: {
-    icon: Comment,
-    className: 'text-gray',
+    icon: () => {
+      return Comment;
+    },
+    className: () => {
+      return 'text-gray';
+    },
     avatarUrl: (node) => {
       return node.author.avatarUrl;
     },
@@ -80,16 +102,38 @@ const timelineItemConfig = {
     },
   },
   PullRequestReview: {
-    icon: Comment,
-    className: 'text-gray',
+    icon: (node) => {
+      if (node.state === 'APPROVED') {
+        return Check;
+      } else if (node.state === 'CHANGES_REQUESTED') {
+        return RequestChanges;
+      } else if (node.state === 'COMMENTED') {
+        return Info;
+      }
+    },
+    className: (node) => {
+      if (node.state === 'APPROVED') {
+        return 'text-green';
+      } else if (node.state === 'CHANGES_REQUESTED') {
+        return 'text-red';
+      } else if (node.state === 'COMMENTED') {
+        return 'text-gray';
+      }
+    },
     avatarUrl: (node) => {
       return node.author.avatarUrl;
     },
     date: (node) => {
-      return node.updatedAt;
+      return node.submittedAt;
     },
     text: (node) => {
-      return `${node.author.login} wrote a comment`;
+      if (node.state === 'APPROVED') {
+        return `${node.author.login} approved these changes`;
+      } else if (node.state === 'CHANGES_REQUESTED') {
+        return `${node.author.login} requested changes`;
+      } else if (node.state === 'COMMENTED') {
+        return `${node.author.login} reviewed`;
+      }
     },
   },
 };
