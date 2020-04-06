@@ -43,7 +43,7 @@ const PullRequestTimelineItem = (props) => {
             : '-'}
           {': '}
         </span>
-        {timelineItemConfig[props.type].text(props.node)}
+        <span>{timelineItemConfig[props.type].text(props.node)}</span>
       </div>
     </div>
   );

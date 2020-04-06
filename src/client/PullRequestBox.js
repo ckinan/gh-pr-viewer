@@ -12,18 +12,21 @@ class PullRequestBox extends React.Component {
     };
   }
 
-  async componentDidMount() {
-    let prs = await fetch('/.netlify/functions/gh-fetch-pull-requests').then(
-      function (response) {
-        return response.json();
-      }
-    );
+  fetchPullRequests = async (user) => {
+    this.setState({ isLoading: true });
+
+    let prs = await fetch(
+      `/.netlify/functions/gh-fetch-pull-requests?user=${user}`
+    ).then(function (response) {
+      return response.json();
+    });
 
     this.setState({ prs: prs });
     this.setState({ isLoading: false });
     this.handleFilterByState('OPEN');
-  }
+  };
 
+  // TODO: This logic should be in PullRequestBoxHeader
   handleFilterByState = (state) => {
     let prComponents = [];
     for (const pr of this.state.prs) {
@@ -43,6 +46,7 @@ class PullRequestBox extends React.Component {
             handleFilterByState={this.handleFilterByState}
             isLoading={this.state.isLoading}
             prs={this.state.prs}
+            fetchPullRequests={this.fetchPullRequests}
           />
 
           {this.state.isLoading ? (

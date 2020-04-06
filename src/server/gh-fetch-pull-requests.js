@@ -5,6 +5,7 @@ const endpoint = 'https://api.github.com/graphql';
 
 exports.handler = async function (event) {
   console.log(`Is token valid? ${auth.check(event)}`);
+  const user = event.queryStringParameters.user;
 
   try {
     const graphQLClient = new GraphQLClient(endpoint, {
@@ -12,7 +13,7 @@ exports.handler = async function (event) {
         authorization: `Bearer ${auth.getToken(event)}`,
       },
     });
-    const response = await graphQLClient.request(query);
+    const response = await graphQLClient.request(query.replace('<user>', user));
     const data = response.search.edges.map((edge) => {
       return edge.node;
     });
@@ -31,7 +32,7 @@ exports.handler = async function (event) {
 
 const query = `{
   __typename
-  search(query: "involves:ckinan is:open is:pr ", type: ISSUE, first: 100) {
+  search(query: "involves:<user> is:open is:pr ", type: ISSUE, first: 100) {
     edges {
       node {
         ... on PullRequest {
