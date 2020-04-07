@@ -1,35 +1,43 @@
 import React from 'react';
-import Octicon, { GitMerge, GitPullRequest, Check, RequestChanges, Comment, PrimitiveDot } from '@primer/octicons-react';
-import moment from 'moment';
+import Octicon, {
+  GitMerge,
+  GitPullRequest,
+  Check,
+  RequestChanges,
+  Comment,
+  PrimitiveDot,
+} from '@primer/octicons-react';
 import PullRequestTimelineItem from './PullRequestTimelineItem';
+import PullRequestDate from './PullRequestDate';
 
 class PullRequestBoxRow extends React.Component {
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      approved: 0,
-      changesRequested: 0,
-      commented: 0,
-      awaiting: 0,
-      reviewers: {}
-    };
-  }
-
-  calculateReviewerStatus = () => {
-    return 1;
-  }
+  state = {
+    approved: 0,
+    changesRequested: 0,
+    commented: 0,
+    awaiting: 0,
+    reviewers: {},
+  };
 
   componentDidMount() {
     let reviewers = {};
-    for(let timelineItem of this.props.pr.timelineItems.nodes) {
-      if(timelineItem.__typename === 'ReviewRequestedEvent') {
+
+    for (let timelineItem of this.props.pr.timelineItems.nodes) {
+      if (timelineItem.__typename === 'ReviewRequestedEvent') {
         reviewers[timelineItem.requestedReviewer.login] = 'AWAITING';
-      } else if(timelineItem.__typename === 'PullRequestReview' && timelineItem.author.login !== this.props.pr.author.login) {
-        if(timelineItem.state === 'APPROVED' || timelineItem.state === 'CHANGES_REQUESTED') {
+      } else if (
+        timelineItem.__typename === 'PullRequestReview' &&
+        timelineItem.author.login !== this.props.pr.author.login
+      ) {
+        if (
+          timelineItem.state === 'APPROVED' ||
+          timelineItem.state === 'CHANGES_REQUESTED'
+        ) {
           reviewers[timelineItem.author.login] = timelineItem.state;
-        } else if(timelineItem.state === 'COMMENTED' && 
-        (!reviewers[timelineItem.author.login] || !reviewers[timelineItem.author.login] === 'AWAITING')
+        } else if (
+          timelineItem.state === 'COMMENTED' &&
+          (!reviewers[timelineItem.author.login] ||
+            !reviewers[timelineItem.author.login] === 'AWAITING')
         ) {
           reviewers[timelineItem.author.login] = 'COMMENTED';
         }
@@ -40,20 +48,20 @@ class PullRequestBoxRow extends React.Component {
       APPROVED: 0,
       CHANGES_REQUESTED: 0,
       COMMENTED: 0,
-      AWAITING: 0
+      AWAITING: 0,
     };
+
     for (const key in reviewers) {
       states[reviewers[key]] += 1;
     }
 
     this.setState({
-      approved: states.APPROVED, 
+      approved: states.APPROVED,
       changesRequested: states.CHANGES_REQUESTED,
       commented: states.COMMENTED,
       awaiting: states.AWAITING,
-      reviewers: reviewers
+      reviewers: reviewers,
     });
-
   }
 
   render() {
@@ -90,107 +98,77 @@ class PullRequestBoxRow extends React.Component {
                 </a>
               </strong>
             </div>
-  
+
             <div className="d-table text-small text-gray-light mb-1">
               <div className="float-md-left pr-3">
                 <strong>Created by</strong>: {this.props.pr.author.login}
               </div>
-              <div className="float-md-left pr-3">
-                <strong>Created at</strong>:{' '}
-                <span
-                  className="tooltipped tooltipped-s"
-                  aria-label={new Date(this.props.pr.createdAt).toString()}
-                >
-                  {moment.utc(this.props.pr.createdAt).fromNow()}
-                </span>
-              </div>
-              <div className="float-md-left pr-3">
-                <strong>Updated at</strong>:{' '}
-                <span
-                  className="tooltipped tooltipped-s"
-                  aria-label={new Date(this.props.pr.updatedAt).toString()}
-                >
-                  {moment.utc(this.props.pr.updatedAt).fromNow()}
-                </span>
-              </div>
-              <div className="float-md-left pr-3">
-                <strong>Closed at</strong>:{' '}
-                <span
-                  className="tooltipped tooltipped-s"
-                  aria-label={
-                    this.props.pr.closedAt
-                      ? new Date(this.props.pr.closedAt).toString()
-                      : '-'
-                  }
-                >
-                  {this.props.pr.closedAt
-                    ? moment.utc(this.props.pr.closedAt).fromNow()
-                    : '-'}
-                </span>
-              </div>
-              <div className="float-md-left">
-                <strong>Merged at</strong>:{' '}
-                <span
-                  className="tooltipped tooltipped-s"
-                  aria-label={
-                    this.props.pr.mergedAt
-                      ? new Date(this.props.pr.mergedAt).toString()
-                      : '-'
-                  }
-                >
-                  {this.props.pr.mergedAt
-                    ? moment.utc(this.props.pr.mergedAt).fromNow()
-                    : '-'}
-                </span>
-              </div>
+              <PullRequestDate
+                label="Created at"
+                date={this.props.pr.createdAt}
+              />
+              <PullRequestDate
+                label="Updated at"
+                date={this.props.pr.updatedAt}
+              />
+              <PullRequestDate
+                label="Closed at"
+                date={this.props.pr.closedAt}
+              />
+              <PullRequestDate
+                label="Merged at"
+                date={this.props.pr.mergedAt}
+              />
             </div>
-  
+
             <div className="d-table text-small text-gray-light">
               <div className="float-md-left pr-3">
-                <strong><Octicon icon={Check} className="text-green" /> Approved</strong>:{' '}
-                <span>
-                  {this.state.approved}
-                </span>
+                <strong>
+                  <Octicon icon={Check} className="text-green" /> Approved
+                </strong>
+                : <span>{this.state.approved}</span>
               </div>
               <div className="float-md-left pr-3">
-                <strong><Octicon icon={RequestChanges} className="text-red" /> Requested Changes</strong>:{' '}
-                <span>
-                  {this.state.changesRequested}
-                </span>
+                <strong>
+                  <Octicon icon={RequestChanges} className="text-red" />{' '}
+                  Requested Changes
+                </strong>
+                : <span>{this.state.changesRequested}</span>
               </div>
               <div className="float-md-left pr-3">
-                <strong><Octicon icon={Comment} className="text-gray" /> Commented</strong>:{' '}
-                <span>
-                  {this.state.commented}
-                </span>
+                <strong>
+                  <Octicon icon={Comment} className="text-gray" /> Commented
+                </strong>
+                : <span>{this.state.commented}</span>
               </div>
               <div className="float-md-left pr-3">
-                <strong><Octicon icon={PrimitiveDot} className="text-yellow" /> Awaiting</strong>:{' '}
-                <span>
-                  {this.state.awaiting}
-                </span>
+                <strong>
+                  <Octicon icon={PrimitiveDot} className="text-yellow" />{' '}
+                  Awaiting
+                </strong>
+                : <span>{this.state.awaiting}</span>
               </div>
             </div>
-            
+
             <details className="details-reset">
-              <summary className="btn-link text-small">Events <span className="dropdown-caret"/></summary>
+              <summary className="btn-link text-small">
+                Events <span className="dropdown-caret" />
+              </summary>
               {this.props.pr.timelineItems.nodes.map((node) => {
-              return (
-                <PullRequestTimelineItem
-                  key={node.id}
-                  type={node.__typename}
-                  node={node}
-                />
-              );
-            })}
+                return (
+                  <PullRequestTimelineItem
+                    key={node.id}
+                    type={node.__typename}
+                    node={node}
+                  />
+                );
+              })}
             </details>
-            
           </div>
         </div>
       </li>
     );
   }
-  
-};
+}
 
 export default PullRequestBoxRow;
