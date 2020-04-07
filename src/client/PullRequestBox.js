@@ -3,14 +3,11 @@ import PullRequestBoxRow from './PullRequestBoxRow';
 import PullRequestBoxHeader from './PullRequestBoxHeader';
 
 class PullRequestBox extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      prs: [],
-      prComponents: [],
-      isLoading: true,
-    };
-  }
+  state = {
+    prs: [],
+    prComponents: [],
+    isLoading: true,
+  };
 
   fetchPullRequests = async (user) => {
     this.setState({ isLoading: true });
@@ -23,16 +20,10 @@ class PullRequestBox extends React.Component {
 
     this.setState({ prs: prs });
     this.setState({ isLoading: false });
-    this.handleFilterByState('OPEN');
-  };
 
-  // TODO: This logic should be in PullRequestBoxHeader
-  handleFilterByState = (state) => {
     let prComponents = [];
     for (const pr of this.state.prs) {
-      if (pr.state === state) {
-        prComponents.push(<PullRequestBoxRow pr={pr} key={pr.id} />);
-      }
+      prComponents.push(<PullRequestBoxRow pr={pr} key={pr.id} />);
     }
 
     this.setState({ prComponents: prComponents });
