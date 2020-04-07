@@ -2,6 +2,7 @@ const auth = require('./commons/auth');
 const graphqlRequest = require('graphql-request');
 const { GraphQLClient } = graphqlRequest;
 const endpoint = 'https://api.github.com/graphql';
+const GITHUB_PAT = process.env.GITHUB_PAT;
 
 exports.handler = async function (event) {
   console.log(`Is token valid? ${auth.check(event)}`);
@@ -10,7 +11,7 @@ exports.handler = async function (event) {
   try {
     const graphQLClient = new GraphQLClient(endpoint, {
       headers: {
-        authorization: `Bearer ${auth.getToken(event)}`,
+        authorization: `Bearer ${GITHUB_PAT}`,
       },
     });
     const response = await graphQLClient.request(query.replace('<user>', user));
