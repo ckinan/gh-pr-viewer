@@ -11,7 +11,7 @@ import moment from 'moment';
 
 const PullRequestTimelineItem = (props) => {
   return (
-    <div className="TimelineItem TimelineItem--condensed">
+    <div className="TimelineItem TimelineItem--condensed text-small">
       <div className="TimelineItem-badge">
         <Octicon
           icon={timelineItemConfig[props.type].icon(props.node)}

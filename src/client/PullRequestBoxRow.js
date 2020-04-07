@@ -145,7 +145,7 @@ class PullRequestBoxRow extends React.Component {
               </div>
             </div>
   
-            <div className="d-table text-small text-gray-light mb-2">
+            <div className="d-table text-small text-gray-light">
               <div className="float-md-left pr-3">
                 <strong><Octicon icon={Check} className="text-green" /> Approved</strong>:{' '}
                 <span>
@@ -171,8 +171,10 @@ class PullRequestBoxRow extends React.Component {
                 </span>
               </div>
             </div>
-  
-            {this.props.pr.timelineItems.nodes.map((node) => {
+            
+            <details className="details-reset">
+              <summary className="btn-link text-small">Events <span className="dropdown-caret"/></summary>
+              {this.props.pr.timelineItems.nodes.map((node) => {
               return (
                 <PullRequestTimelineItem
                   key={node.id}
@@ -181,6 +183,8 @@ class PullRequestBoxRow extends React.Component {
                 />
               );
             })}
+            </details>
+            
           </div>
         </div>
       </li>
