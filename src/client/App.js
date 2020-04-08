@@ -1,31 +1,29 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from './Header';
 import PublicView from './PublicView';
 import ProtectedView from './ProtectedView';
 
-class App extends React.Component {
-  state = {
-    isAuthenticated: false,
-    isLoading: true,
-  };
+const App = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
-  async componentDidMount() {
-    let that = this;
+  useEffect(() => {
+    const checkAuth = async () => {
+      await fetch('/.netlify/functions/gh-check-auth').then(function(response) {
+        if (response.ok) {
+          setIsAuthenticated(true);
+        }
+        setIsLoading(false);
+      });
+    };
 
-    await fetch('/.netlify/functions/gh-check-auth').then(function(response) {
-      if (response.ok) {
-        that.setState({ isAuthenticated: true, isLoading: false });
-      } else {
-        that.setState({ isLoading: false });
-      }
-    });
-  }
+    checkAuth();
+  }, []);
 
-  render() {
     return (
       <div>
         <Header />
-        {this.state.isLoading ? (
+        {isLoading ? (
           <div className="mx-auto my-3 p-1" style={{ maxWidth: '900px' }}>
             <div className="blankslate">
               <h2>
@@ -34,14 +32,13 @@ class App extends React.Component {
               </h2>
             </div>
           </div>
-        ) : !!this.state.isAuthenticated ? (
+        ) : !!isAuthenticated ? (
           <ProtectedView />
         ) : (
           <PublicView />
         )}
       </div>
     );
-  }
 }
 
 export default App;
