@@ -1,15 +1,15 @@
 import React from 'react';
 import moment from 'moment';
 
-const PullRequestDate = (props) => {
-  return props.date ? (
+const PullRequestDate = ({label, date}) => {
+  return date ? (
     <div className="float-md-left pr-3">
-      <strong>{props.label}</strong>:{' '}
+      <strong>{label}</strong>:{' '}
       <span
         className="tooltipped tooltipped-s"
-        aria-label={props.date ? new Date(props.date).toString() : '-'}
+        aria-label={date ? new Date(date).toString() : '-'}
       >
-        {props.date ? moment.utc(props.date).fromNow() : '-'}
+        {date ? moment.utc(date).fromNow() : '-'}
       </span>
     </div>
   ) : (
