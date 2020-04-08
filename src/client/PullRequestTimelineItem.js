@@ -9,13 +9,13 @@ import Octicon, {
 } from '@primer/octicons-react';
 import moment from 'moment';
 
-const PullRequestTimelineItem = (props) => {
+const PullRequestTimelineItem = ({node}) => {
   return (
     <div className="TimelineItem TimelineItem--condensed text-small">
       <div className="TimelineItem-badge">
         <Octicon
-          icon={timelineItemConfig[props.type].icon(props.node)}
-          className={timelineItemConfig[props.type].className(props.node)}
+          icon={timelineItemConfig[node.__typename].icon(node)}
+          className={timelineItemConfig[node.__typename].className(node)}
         />
       </div>
       <div className="TimelineItem-body">
@@ -23,27 +23,27 @@ const PullRequestTimelineItem = (props) => {
           className="avatar mr-1"
           height="20"
           width="20"
-          src={timelineItemConfig[props.type].avatarUrl(props.node)}
+          src={timelineItemConfig[node.__typename].avatarUrl(node)}
           alt="prItem"
         />
         <span
           className="tooltipped tooltipped-s"
           aria-label={
-            timelineItemConfig[props.type].date(props.node)
+            timelineItemConfig[node.__typename].date(node)
               ? new Date(
-                  timelineItemConfig[props.type].date(props.node)
+                  timelineItemConfig[node.__typename].date(node)
                 ).toString()
               : '-'
           }
         >
-          {timelineItemConfig[props.type].date(props.node)
+          {timelineItemConfig[node.__typename].date(node)
             ? moment
-                .utc(timelineItemConfig[props.type].date(props.node))
+                .utc(timelineItemConfig[node.__typename].date(node))
                 .fromNow()
             : '-'}
           {': '}
         </span>
-        <span>{timelineItemConfig[props.type].text(props.node)}</span>
+        <span>{timelineItemConfig[node.__typename].text(node)}</span>
       </div>
     </div>
   );

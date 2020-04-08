@@ -154,7 +154,6 @@ const PullRequestBoxRow = ({pr}) => {
               return (
                 <PullRequestTimelineItem
                   key={node.id}
-                  type={node.__typename}
                   node={node}
                 />
               );
