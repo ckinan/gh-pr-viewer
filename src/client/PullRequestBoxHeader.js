@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import Octicon, { GitPullRequest } from '@primer/octicons-react';
+import { useHistory, useLocation } from "react-router-dom";
 
 const PullRequestBoxHeader = ({fetchPullRequests, prs}) => {
 
   const [user, setUser] = useState('ckinan');
+  const [userQuery, setUserQuery] = useState('');
+  const history = useHistory();
+  const query = useQuery();
 
   const handleChange = (e) => {
     setUser(e.target.value);
@@ -11,12 +15,22 @@ const PullRequestBoxHeader = ({fetchPullRequests, prs}) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetchPullRequests(user);
+    setUserQuery(user);
+    history.push(`/?user=${user}`);
   };
 
   useEffect(() => {
-    fetchPullRequests(user);
-  }, []);
+    setUserQuery(query.get('user'));
+    setUser(query.get('user'));
+  }, [query.get('user')]);
+
+  useEffect(() => {
+    fetchPullRequests(userQuery);
+  }, [userQuery]);
+
+  useEffect(() => {
+    document.title = `${user} PRs`;
+  }, [fetchPullRequests]);
 
   return (
     <div className="Box-header">
@@ -39,5 +53,9 @@ const PullRequestBoxHeader = ({fetchPullRequests, prs}) => {
     </div>
   );
 }
+
+const useQuery = () => {
+  return new URLSearchParams(useLocation().search);
+};
 
 export default PullRequestBoxHeader;
