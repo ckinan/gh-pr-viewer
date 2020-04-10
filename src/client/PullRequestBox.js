@@ -9,19 +9,22 @@ const PullRequestBox = () => {
 
   const fetchPullRequests = async (user) => {
     setIsLoading(true);
-
-    let prs = await fetch(
-      `/.netlify/functions/gh-fetch-pull-requests?user=${user}`
-    ).then(function (response) {
-      return response.json();
-    });
-
     let prComponents = [];
-    for (const pr of prs) {
-      prComponents.push(<PullRequestBoxRow pr={pr} key={pr.id} />);
+
+    if (user) {
+      let prs = await fetch(
+        `/.netlify/functions/gh-fetch-pull-requests?user=${user}`
+      ).then(function (response) {
+        return response.json();
+      });
+
+      for (const pr of prs) {
+        prComponents.push(<PullRequestBoxRow pr={pr} key={pr.id} />);
+      }
+
+      setPrs(prs);
     }
 
-    setPrs(prs);
     setPrComponents(prComponents);
     setIsLoading(false);
   };
@@ -50,14 +53,14 @@ const PullRequestBox = () => {
           <div className="blankslate">
             <h3 className="mb-1">No results matched your search.</h3>
             <p>
-              You may need to select other filters to show your pull requests
-              or you may not have any pull requests at all
+              You may need to select other filters to show your pull requests or
+              you may not have any pull requests at all
             </p>
           </div>
         )}
       </div>
     </>
   );
-}
+};
 
 export default PullRequestBox;

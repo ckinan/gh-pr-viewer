@@ -2,14 +2,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './client/App';
 import * as serviceWorker from './client/serviceWorker';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, Route } from 'react-router-dom';
 
 ReactDOM.render(
-  <BrowserRouter>
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
-  </BrowserRouter>,
+  <React.StrictMode>
+    <BrowserRouter>
+      <Route exact path="/:userParam?" component={App} />
+    </BrowserRouter>
+  </React.StrictMode>,
   document.getElementById('root')
 );
 

@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Octicon, { GitPullRequest } from '@primer/octicons-react';
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory, useParams } from 'react-router-dom';
 
-const PullRequestBoxHeader = ({fetchPullRequests, prs}) => {
-
-  const [user, setUser] = useState('ckinan');
-  const [userQuery, setUserQuery] = useState('');
+const PullRequestBoxHeader = ({ fetchPullRequests, prs }) => {
+  const [user, setUser] = useState('');
+  const { userParam } = useParams();
   const history = useHistory();
-  const query = useQuery();
 
   const handleChange = (e) => {
     setUser(e.target.value);
@@ -15,22 +13,14 @@ const PullRequestBoxHeader = ({fetchPullRequests, prs}) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setUserQuery(user);
-    history.push(`/?user=${user}`);
+    history.push(`/${user}`);
   };
 
   useEffect(() => {
-    setUserQuery(query.get('user'));
-    setUser(query.get('user'));
-  }, [query.get('user')]);
-
-  useEffect(() => {
-    fetchPullRequests(userQuery);
-  }, [userQuery]);
-
-  useEffect(() => {
-    document.title = `${user} PRs`;
-  }, [fetchPullRequests]);
+    document.title = `${userParam ? userParam : ''} PRs`;
+    fetchPullRequests(userParam);
+    setUser(userParam);
+  }, [userParam]);
 
   return (
     <div className="Box-header">
@@ -52,10 +42,6 @@ const PullRequestBoxHeader = ({fetchPullRequests, prs}) => {
       </h3>
     </div>
   );
-}
-
-const useQuery = () => {
-  return new URLSearchParams(useLocation().search);
 };
 
 export default PullRequestBoxHeader;
