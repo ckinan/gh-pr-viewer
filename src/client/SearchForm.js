@@ -5,7 +5,7 @@ import PullRequestBoxRow from './PullRequestBoxRow';
 
 const SearchForm = () => {
   const [user, setUser] = useState('');
-  const { state, dispatch } = useContext(AppContext);
+  const { dispatch } = useContext(AppContext);
   const history = useHistory();
   const { userParam } = useParams();
 
