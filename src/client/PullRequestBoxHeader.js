@@ -13,7 +13,7 @@ const PullRequestBoxHeader = () => {
             {state.isLoading ? (
               <span className="AnimatedEllipsis"></span>
             ) : (
-              state.prs.length
+              state.count
             )}
           </span>
         </div>

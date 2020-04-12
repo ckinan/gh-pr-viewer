@@ -5,14 +5,21 @@ export const initialState = {
   prs: [],
   prComponents: [],
   isLoading: false,
+  count: 0,
+  pageInfo: {
+    startCursor: '',
+    hasPreviousPage: false,
+    hasNextPage: false,
+    endCursor: '',
+  },
 };
 
 export const AppReducer = (state, action) => {
   switch (action.type) {
-    case 'SEARCH':
+    case 'UPDATE_COUNT':
       return {
         ...state,
-        ...action.payload,
+        count: action.count,
       };
     case 'UPDATE_PRS':
       return {
@@ -33,6 +40,11 @@ export const AppReducer = (state, action) => {
       return {
         ...state,
         isLoading: false,
+      };
+    case 'UPDATE_PAGE_INFO':
+      return {
+        ...state,
+        pageInfo: action.pageInfo,
       };
     default:
       return state;

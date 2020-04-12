@@ -24,19 +24,29 @@ const SearchForm = () => {
     let prComponents = [];
 
     if (user) {
-      let prs = await fetch(
+      let response = await fetch(
         `/.netlify/functions/gh-fetch-pull-requests?user=${user}&searchType=${searchType}`
       ).then(function (response) {
         return response.json();
       });
 
-      for (const pr of prs) {
-        prComponents.push(<PullRequestBoxRow pr={pr} key={pr.id} />);
+      for (const pr of response.edges) {
+        prComponents.push(<PullRequestBoxRow pr={pr.node} key={pr.node.id} />);
       }
 
       dispatch({
         type: 'UPDATE_PRS',
-        prs: prs,
+        prs: response.edges,
+      });
+
+      dispatch({
+        type: 'UPDATE_COUNT',
+        count: response.issueCount,
+      });
+
+      dispatch({
+        type: 'UPDATE_PAGE_INFO',
+        pageInfo: response.pageInfo,
       });
     }
 

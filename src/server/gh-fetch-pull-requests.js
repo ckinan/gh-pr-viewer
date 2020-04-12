@@ -18,12 +18,9 @@ exports.handler = async function (event) {
     const response = await graphQLClient.request(
       query.replace('<user>', user).replace('<searchType>', searchType)
     );
-    const data = response.search.edges.map((edge) => {
-      return edge.node;
-    });
     return {
       statusCode: 200,
-      body: JSON.stringify(data),
+      body: JSON.stringify(response.search),
     };
   } catch (err) {
     console.log(err);
@@ -34,9 +31,11 @@ exports.handler = async function (event) {
   }
 };
 
+// search(query: "<searchType>:<user> is:open is:pr ", type: ISSUE, first: 2, after: "<cursor>") {
+
 const query = `{
   __typename
-  search(query: "<searchType>:<user> is:open is:pr ", type: ISSUE, first: 10) {
+  search(query: "<searchType>:<user> is:open is:pr ", type: ISSUE, first: 2) {
     edges {
       node {
         ... on PullRequest {
@@ -118,6 +117,13 @@ const query = `{
           }
         }
       }
+    }
+    issueCount
+    pageInfo {
+      startCursor
+      hasPreviousPage
+      hasNextPage
+      endCursor
     }
   }
 }`;
