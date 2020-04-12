@@ -65,7 +65,7 @@ const SearchForm = () => {
           className={`flex-1 btn BtnGroup-item btn-outline ${
             searchType === 'author'
               ? 'bg-blue text-white'
-              : 'bg-gray-light text-gray-dark'
+              : 'bg-gray-light text-gray'
           } `}
           type="button"
           onClick={(e) => handleSearchType(e, 'author')}
@@ -76,7 +76,7 @@ const SearchForm = () => {
           className={`flex-1 btn BtnGroup-item btn-outline ${
             searchType === 'involves'
               ? 'bg-blue text-white'
-              : 'bg-gray-light text-gray-dark'
+              : 'bg-gray-light text-gray'
           } `}
           type="button"
           onClick={(e) => handleSearchType(e, 'involves')}
@@ -87,7 +87,7 @@ const SearchForm = () => {
           className={`flex-1 btn BtnGroup-item btn-outline ${
             searchType === 'review-requested'
               ? 'bg-blue text-white'
-              : 'bg-gray-light text-gray-dark'
+              : 'bg-gray-light text-gray'
           } `}
           type="button"
           onClick={(e) => handleSearchType(e, 'review-requested')}

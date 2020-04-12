@@ -10,8 +10,7 @@ import Octicon, {
 import PullRequestTimelineItem from './PullRequestTimelineItem';
 import PullRequestDate from './PullRequestDate';
 
-const PullRequestBoxRow = ({pr}) => {
-
+const PullRequestBoxRow = ({ pr }) => {
   const [approved, setApproved] = useState(0);
   const [changesRequested, setChangesRequested] = useState(0);
   const [commented, setCommented] = useState(0);
@@ -62,7 +61,7 @@ const PullRequestBoxRow = ({pr}) => {
   }, []);
 
   return (
-    <li className="Box-row">
+    <li className="Box-row pt-2 pb-2">
       <div>
         <div className="d-table-cell">
           {pr.state === 'MERGED' ? (
@@ -99,22 +98,10 @@ const PullRequestBoxRow = ({pr}) => {
             <div className="float-md-left pr-3">
               <strong>Created by</strong>: {pr.author.login}
             </div>
-            <PullRequestDate
-              label="Created at"
-              date={pr.createdAt}
-            />
-            <PullRequestDate
-              label="Updated at"
-              date={pr.updatedAt}
-            />
-            <PullRequestDate
-              label="Closed at"
-              date={pr.closedAt}
-            />
-            <PullRequestDate
-              label="Merged at"
-              date={pr.mergedAt}
-            />
+            <PullRequestDate label="Created at" date={pr.createdAt} />
+            <PullRequestDate label="Updated at" date={pr.updatedAt} />
+            <PullRequestDate label="Closed at" date={pr.closedAt} />
+            <PullRequestDate label="Merged at" date={pr.mergedAt} />
           </div>
 
           <div className="d-table text-small text-gray-light">
@@ -126,8 +113,8 @@ const PullRequestBoxRow = ({pr}) => {
             </div>
             <div className="float-md-left pr-3">
               <strong>
-                <Octicon icon={RequestChanges} className="text-red" />{' '}
-                Requested Changes
+                <Octicon icon={RequestChanges} className="text-red" /> Requested
+                Changes
               </strong>
               : <span>{changesRequested}</span>
             </div>
@@ -139,8 +126,7 @@ const PullRequestBoxRow = ({pr}) => {
             </div>
             <div className="float-md-left pr-3">
               <strong>
-                <Octicon icon={PrimitiveDot} className="text-yellow" />{' '}
-                Awaiting
+                <Octicon icon={PrimitiveDot} className="text-yellow" /> Awaiting
               </strong>
               : <span>{awaiting}</span>
             </div>
@@ -151,18 +137,13 @@ const PullRequestBoxRow = ({pr}) => {
               Events <span className="dropdown-caret" />
             </summary>
             {pr.timelineItems.nodes.map((node) => {
-              return (
-                <PullRequestTimelineItem
-                  key={node.id}
-                  node={node}
-                />
-              );
+              return <PullRequestTimelineItem key={node.id} node={node} />;
             })}
           </details>
         </div>
       </div>
     </li>
   );
-}
+};
 
 export default PullRequestBoxRow;
