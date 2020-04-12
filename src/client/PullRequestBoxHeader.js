@@ -9,7 +9,13 @@ const PullRequestBoxHeader = () => {
       <h3 className="Box-title">
         <div className="mr-2">
           Found
-          <span className="Counter ml-1">{state.prs.length}</span>
+          <span className="Counter ml-1">
+            {state.isLoading ? (
+              <span class="AnimatedEllipsis"></span>
+            ) : (
+              state.prs.length
+            )}
+          </span>
         </div>
       </h3>
     </div>
