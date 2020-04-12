@@ -5,6 +5,7 @@ import PullRequestBoxRow from './PullRequestBoxRow';
 
 const SearchForm = () => {
   const [user, setUser] = useState('');
+  const [searchType, setSearchType] = useState('author');
   const { dispatch } = useContext(AppContext);
   const history = useHistory();
   const { userParam } = useParams();
@@ -24,7 +25,7 @@ const SearchForm = () => {
 
     if (user) {
       let prs = await fetch(
-        `/.netlify/functions/gh-fetch-pull-requests?user=${user}`
+        `/.netlify/functions/gh-fetch-pull-requests?user=${user}&searchType=${searchType}`
       ).then(function (response) {
         return response.json();
       });
@@ -50,32 +51,61 @@ const SearchForm = () => {
     document.title = `${userParam ? userParam : ''} PRs`;
     fetchPullRequests(userParam);
     setUser(userParam);
-  }, [userParam]);
+  }, [userParam, searchType]);
+
+  const handleSearchType = (e, searchType) => {
+    e.preventDefault();
+    setSearchType(searchType);
+  };
 
   return (
-    <>
-      <div className="mr-2">
-        <button className="btn BtnGroup-item" type="button">
+    <div className="d-md-inline-block mb-3">
+      <div className="d-inline">
+        <button
+          className={`btn BtnGroup-item btn-outline ${
+            searchType === 'author'
+              ? 'bg-blue text-white'
+              : 'bg-gray-light text-gray-dark'
+          } `}
+          type="button"
+          onClick={(e) => handleSearchType(e, 'author')}
+        >
           Created
         </button>
-        <button className="btn BtnGroup-item" type="button">
-          Involved
+        <button
+          className={`btn BtnGroup-item btn-outline ${
+            searchType === 'involves'
+              ? 'bg-blue text-white'
+              : 'bg-gray-light text-gray-dark'
+          } `}
+          type="button"
+          onClick={(e) => handleSearchType(e, 'involves')}
+        >
+          Involves
         </button>
-        <button className="btn BtnGroup-item" type="button">
+        <button
+          className={`btn BtnGroup-item btn-outline ${
+            searchType === 'review-requested'
+              ? 'bg-blue text-white'
+              : 'bg-gray-light text-gray-dark'
+          } `}
+          type="button"
+          onClick={(e) => handleSearchType(e, 'review-requested')}
+        >
           Review requests
         </button>
       </div>
 
-      <form onSubmit={(e) => handleSubmit(e)}>
+      <form className="d-inline ml-3" onSubmit={(e) => handleSubmit(e)}>
         <input
-          className="form-control ml-2 mb-3"
+          className="form-control"
           type="text"
           placeholder="User"
           value={user}
           onChange={(e) => handleChange(e)}
         />
       </form>
-    </>
+    </div>
   );
 };
 

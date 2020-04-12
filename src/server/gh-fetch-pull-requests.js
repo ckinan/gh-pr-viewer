@@ -7,6 +7,7 @@ const GITHUB_PAT = process.env.GITHUB_PAT;
 exports.handler = async function (event) {
   console.log(`Is token valid? ${auth.check(event)}`);
   const user = event.queryStringParameters.user;
+  const searchType = event.queryStringParameters.searchType;
 
   try {
     const graphQLClient = new GraphQLClient(endpoint, {
@@ -14,7 +15,9 @@ exports.handler = async function (event) {
         authorization: `Bearer ${GITHUB_PAT}`,
       },
     });
-    const response = await graphQLClient.request(query.replace('<user>', user));
+    const response = await graphQLClient.request(
+      query.replace('<user>', user).replace('<searchType>', searchType)
+    );
     const data = response.search.edges.map((edge) => {
       return edge.node;
     });
@@ -33,7 +36,7 @@ exports.handler = async function (event) {
 
 const query = `{
   __typename
-  search(query: "involves:<user> is:open is:pr ", type: ISSUE, first: 100) {
+  search(query: "<searchType>:<user> is:open is:pr ", type: ISSUE, first: 100) {
     edges {
       node {
         ... on PullRequest {
