@@ -24,7 +24,8 @@ GITHUB_CLIENT_SECRET=abc
 Run
 
 ```bash
-> netlify dev
+$ npm install
+$ netlify dev
 ```
 
 ### On Netlify
