@@ -1,5 +1,5 @@
 {
-  "name": "gh-web-client",
+  "name": "gh-pr-viewer",
   "version": "1.0.0",
   "description": "Web application that uses Github API",
   "scripts": {

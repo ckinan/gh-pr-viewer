@@ -1,6 +1,6 @@
 {
-  "short_name": "gh-web-client",
-  "name": "Github Web Client",
+  "short_name": "gh-pr-viewer",
+  "name": "Github Pull Request Viewer",
   "start_url": ".",
   "display": "standalone",
   "theme_color": "#000000",
