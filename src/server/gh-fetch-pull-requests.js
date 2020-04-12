@@ -36,7 +36,7 @@ exports.handler = async function (event) {
 
 const query = `{
   __typename
-  search(query: "<searchType>:<user> is:open is:pr ", type: ISSUE, first: 100) {
+  search(query: "<searchType>:<user> is:open is:pr ", type: ISSUE, first: 10) {
     edges {
       node {
         ... on PullRequest {
@@ -97,6 +97,8 @@ const query = `{
                       login
                       avatarUrl
                     }
+                    avatarUrl
+                    name
                   }
                 }
               }

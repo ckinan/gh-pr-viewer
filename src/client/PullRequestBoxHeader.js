@@ -11,7 +11,7 @@ const PullRequestBoxHeader = () => {
           Found
           <span className="Counter ml-1">
             {state.isLoading ? (
-              <span class="AnimatedEllipsis"></span>
+              <span className="AnimatedEllipsis"></span>
             ) : (
               state.prs.length
             )}

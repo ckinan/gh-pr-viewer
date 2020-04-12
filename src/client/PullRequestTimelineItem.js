@@ -9,7 +9,7 @@ import Octicon, {
 } from '@primer/octicons-react';
 import moment from 'moment';
 
-const PullRequestTimelineItem = ({node}) => {
+const PullRequestTimelineItem = ({ node }) => {
   return (
     <div className="TimelineItem TimelineItem--condensed text-small">
       <div className="TimelineItem-badge">
@@ -58,7 +58,7 @@ const timelineItemConfig = {
       return 'text-gray';
     },
     avatarUrl: (node) => {
-      return node.commit.author.user.avatarUrl;
+      return node.commit.author.avatarUrl;
     },
     date: (node) => {
       return node.commit.committedDate;
