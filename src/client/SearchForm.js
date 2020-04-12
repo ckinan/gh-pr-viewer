@@ -59,10 +59,10 @@ const SearchForm = () => {
   };
 
   return (
-    <div className="d-md-inline-block mb-3">
-      <div className="d-inline">
+    <div className="d-flex mb-3 flex-column flex-md-row p-2 p-md-0">
+      <div className="d-flex d-sm-block">
         <button
-          className={`btn BtnGroup-item btn-outline ${
+          className={`flex-1 btn BtnGroup-item btn-outline ${
             searchType === 'author'
               ? 'bg-blue text-white'
               : 'bg-gray-light text-gray-dark'
@@ -73,7 +73,7 @@ const SearchForm = () => {
           Created
         </button>
         <button
-          className={`btn BtnGroup-item btn-outline ${
+          className={`flex-1 btn BtnGroup-item btn-outline ${
             searchType === 'involves'
               ? 'bg-blue text-white'
               : 'bg-gray-light text-gray-dark'
@@ -84,7 +84,7 @@ const SearchForm = () => {
           Involves
         </button>
         <button
-          className={`btn BtnGroup-item btn-outline ${
+          className={`flex-1 btn BtnGroup-item btn-outline ${
             searchType === 'review-requested'
               ? 'bg-blue text-white'
               : 'bg-gray-light text-gray-dark'
@@ -96,9 +96,12 @@ const SearchForm = () => {
         </button>
       </div>
 
-      <form className="d-inline ml-3" onSubmit={(e) => handleSubmit(e)}>
+      <form
+        className="flex-auto ml-0 ml-md-3 mt-3 mt-md-0"
+        onSubmit={(e) => handleSubmit(e)}
+      >
         <input
-          className="form-control"
+          className="form-control width-full"
           type="text"
           placeholder="User"
           value={user}
