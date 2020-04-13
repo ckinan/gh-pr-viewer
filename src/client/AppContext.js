@@ -2,6 +2,11 @@ import React from 'react';
 export const AppContext = React.createContext();
 
 export const initialState = {
+  search: {
+    user: '',
+    searchType: 'author',
+    cursor: '',
+  },
   prs: [],
   prComponents: [],
   isLoading: false,

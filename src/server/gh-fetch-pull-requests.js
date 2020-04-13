@@ -35,7 +35,7 @@ exports.handler = async function (event) {
 
 const query = `{
   __typename
-  search(query: "<searchType>:<user> is:open is:pr ", type: ISSUE, first: 2) {
+  search(query: "<searchType>:<user> is:open is:pr ", type: ISSUE, first: 10) {
     edges {
       node {
         ... on PullRequest {
