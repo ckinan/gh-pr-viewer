@@ -34,8 +34,7 @@ const PullRequestBoxRow = ({ pr }) => {
           reviewers[timelineItem.author.login] = timelineItem.state;
         } else if (
           timelineItem.state === 'COMMENTED' &&
-          (!reviewers[timelineItem.author.login] ||
-            !reviewers[timelineItem.author.login] === 'AWAITING')
+          reviewers[timelineItem.author.login] === 'AWAITING'
         ) {
           reviewers[timelineItem.author.login] = 'COMMENTED';
         }
