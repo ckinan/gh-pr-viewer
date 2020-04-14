@@ -84,14 +84,20 @@ const SearchForm = () => {
         </button>
         <button
           className={`flex-1 btn BtnGroup-item btn-outline ${
-            searchType === 'involves'
+            searchType === 'involves-author'
               ? 'bg-blue text-white'
               : 'bg-gray-light text-gray'
           } `}
           type="button"
-          onClick={(e) => handleSearchType(e, 'involves')}
+          onClick={(e) => handleSearchType(e, 'involves-author')}
         >
-          Involves
+          Involves{' '}
+          <span
+            class="tooltipped tooltipped-s tooltipped-no-delay"
+            aria-label="Involved but not as author"
+          >
+            ?
+          </span>
         </button>
         <button
           className={`flex-1 btn BtnGroup-item btn-outline ${
