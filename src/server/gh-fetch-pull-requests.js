@@ -89,7 +89,7 @@ const query = `{
                   login
                   avatarUrl
                 }
-                submittedAt
+                updatedAt
                 state
               }
               ... on PullRequestCommit {

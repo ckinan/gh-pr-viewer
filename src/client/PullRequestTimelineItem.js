@@ -109,6 +109,8 @@ const timelineItemConfig = {
         return RequestChanges;
       } else if (node.state === 'COMMENTED') {
         return Info;
+      } else if (node.state === 'PENDING') {
+        return Eye;
       }
     },
     className: (node) => {
@@ -124,7 +126,7 @@ const timelineItemConfig = {
       return node.author.avatarUrl;
     },
     date: (node) => {
-      return node.submittedAt;
+      return node.updatedAt;
     },
     text: (node) => {
       if (node.state === 'APPROVED') {
@@ -133,6 +135,8 @@ const timelineItemConfig = {
         return `${node.author.login} requested changes`;
       } else if (node.state === 'COMMENTED') {
         return `${node.author.login} reviewed`;
+      } else if (node.state === 'PENDING') {
+        return `${node.author.login} has a pending review`;
       }
     },
   },

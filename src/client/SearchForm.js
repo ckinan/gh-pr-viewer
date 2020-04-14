@@ -54,6 +54,7 @@ const SearchForm = () => {
       type: 'UPDATE_PR_COMPONENTS',
       prComponents: prComponents,
     });
+
     dispatch({ type: 'STOP_LOADING' });
   };
 
@@ -93,7 +94,7 @@ const SearchForm = () => {
         >
           Involves{' '}
           <span
-            class="tooltipped tooltipped-s tooltipped-no-delay"
+            className="tooltipped tooltipped-s tooltipped-no-delay"
             aria-label="Involved but not as author"
           >
             ?
