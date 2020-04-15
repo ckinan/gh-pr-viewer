@@ -65,7 +65,7 @@ const Pagination = () => {
         >
           Previous
         </span>
-        <a
+        <span
           className="next_page"
           aria-disabled={!state.search.pageInfo.hasNextPage}
           onClick={(e) =>
@@ -73,7 +73,7 @@ const Pagination = () => {
           }
         >
           Next
-        </a>
+        </span>
       </div>
     </nav>
   );

@@ -6,10 +6,10 @@ const Header = ({ avatarUrl }) => {
       <div className="Header-item Header-item--full">
         <span>Github Pull Request Viewer</span>
       </div>
-      <div class="Header-item mr-0">
+      <div className="Header-item mr-0">
         {avatarUrl ? (
           <img
-            class="avatar"
+            className="avatar"
             height="20"
             alt="@octocat"
             src={avatarUrl}
