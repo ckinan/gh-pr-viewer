@@ -21,7 +21,10 @@ const PullRequestBoxRow = ({ pr }) => {
     let reviewers = {};
 
     for (let timelineItem of pr.timelineItems.nodes) {
-      if (timelineItem.__typename === 'ReviewRequestedEvent') {
+      if (
+        timelineItem.__typename === 'ReviewRequestedEvent' &&
+        timelineItem.requestedReviewer
+      ) {
         reviewers[timelineItem.requestedReviewer.login] = 'AWAITING';
       } else if (
         timelineItem.__typename === 'PullRequestReview' &&

@@ -81,7 +81,9 @@ const timelineItemConfig = {
       return node.createdAt;
     },
     text: (node) => {
-      return `${node.actor.login} requested a review from ${node.requestedReviewer.login}`;
+      return `${node.actor.login} requested a review from ${
+        node.requestedReviewer ? node.requestedReviewer.login : '(unknown)'
+      }`;
     },
   },
   IssueComment: {

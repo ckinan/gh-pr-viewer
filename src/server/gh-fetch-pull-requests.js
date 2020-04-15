@@ -26,7 +26,7 @@ exports.handler = async function (event) {
     }
 
     let paginationQuery = '';
-    const pageCount = 2;
+    const pageCount = 10;
     if (paginationActionType === 'previous') {
       paginationQuery = `last:${pageCount}, before:"${cursor}"`;
     } else if (paginationActionType === 'next') {
