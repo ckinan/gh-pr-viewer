@@ -136,7 +136,8 @@ const PullRequestBoxRow = ({ pr }) => {
 
           <details className="details-reset">
             <summary className="btn-link text-small">
-              Events <span className="dropdown-caret" />
+              Events ({pr.timelineItems.nodes.length})
+              <span className="dropdown-caret ml-1" />
             </summary>
             {pr.timelineItems.nodes.map((node) => {
               return <PullRequestTimelineItem key={node.id} node={node} />;
