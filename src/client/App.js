@@ -7,17 +7,20 @@ import './App.scss';
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [avatarUrl, setAvatarUrl] = useState('');
 
   useEffect(() => {
     const checkAuth = async () => {
-      await fetch('/.netlify/functions/gh-check-auth').then(function (
-        response
-      ) {
-        if (response.ok) {
-          setIsAuthenticated(true);
+      const response = await fetch('/.netlify/functions/gh-check-auth').then(
+        function (response) {
+          if (response.ok) {
+            setIsAuthenticated(true);
+          }
+          setIsLoading(false);
+          return response.json();
         }
-        setIsLoading(false);
-      });
+      );
+      setAvatarUrl(response.avatarUrl);
     };
 
     checkAuth();
@@ -25,7 +28,7 @@ const App = () => {
 
   return (
     <div>
-      <Header />
+      <Header avatarUrl={avatarUrl} />
       {isLoading ? (
         <div className="mx-auto my-3 p-1" style={{ maxWidth: '900px' }}>
           <div className="blankslate">
