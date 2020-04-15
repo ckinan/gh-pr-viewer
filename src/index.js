@@ -7,7 +7,7 @@ import { BrowserRouter, Route } from 'react-router-dom';
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <Route exact path="/:userParam?" component={App} />
+      <Route exact path="/" component={App} />
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')

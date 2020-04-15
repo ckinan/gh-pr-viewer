@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { AppContext } from './AppContext.js';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory, useParams, useLocation } from 'react-router-dom';
 import PullRequestBoxRow from './PullRequestBoxRow';
 
 const SearchForm = () => {
@@ -8,7 +8,7 @@ const SearchForm = () => {
   const [searchType, setSearchType] = useState('author');
   const { state, dispatch } = useContext(AppContext);
   const history = useHistory();
-  const { userParam } = useParams();
+  const query = useQuery();
 
   const handleChange = (e) => {
     setUser(e.target.value);
@@ -16,16 +16,16 @@ const SearchForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    history.push(`/${user}`);
+    history.push(`/?user=${user}&searchType=${searchType}`);
   };
 
-  const fetchPullRequests = async (user) => {
+  const fetchPullRequests = async (userParam, searchTypeParam) => {
     dispatch({ type: 'START_LOADING' });
     let prComponents = [];
 
-    if (user) {
+    if (userParam) {
       let response = await fetch(
-        `/.netlify/functions/gh-fetch-pull-requests?user=${user}&searchType=${searchType}`
+        `/.netlify/functions/gh-fetch-pull-requests?user=${userParam}&searchType=${searchTypeParam}`
       ).then(function (response) {
         return response.json();
       });
@@ -59,14 +59,23 @@ const SearchForm = () => {
   };
 
   useEffect(() => {
-    document.title = `${userParam ? userParam : ''} PRs`;
-    fetchPullRequests(userParam);
+    const userParam = query.get('user') ? query.get('user') : '';
+    const searchTypeParam = query.get('searchType')
+      ? query.get('searchType')
+      : 'author';
+
+    document.title = `${userParam} PRs`;
+
+    fetchPullRequests(userParam, searchTypeParam);
+
     setUser(userParam);
-  }, [userParam, searchType]);
+    setSearchType(searchTypeParam);
+  }, [query.get('user'), query.get('searchType')]);
 
   const handleSearchType = (e, searchType) => {
     e.preventDefault();
     setSearchType(searchType);
+    history.push(`/?user=${user}&searchType=${searchType}`);
   };
 
   return (
@@ -127,6 +136,10 @@ const SearchForm = () => {
       </form>
     </div>
   );
+};
+
+const useQuery = () => {
+  return new URLSearchParams(useLocation().search);
 };
 
 export default SearchForm;
