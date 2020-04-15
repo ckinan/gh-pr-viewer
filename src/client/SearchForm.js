@@ -48,6 +48,15 @@ const SearchForm = () => {
         type: 'UPDATE_PAGE_INFO',
         pageInfo: response.pageInfo,
       });
+
+      dispatch({
+        type: 'UPDATE_SEARCH',
+        search: {
+          user: userParam,
+          searchType: searchTypeParam,
+          pageInfo: response.pageInfo,
+        },
+      });
     }
 
     dispatch({

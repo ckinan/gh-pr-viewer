@@ -5,18 +5,12 @@ export const initialState = {
   search: {
     user: '',
     searchType: 'author',
-    cursor: '',
+    pageInfo: {},
   },
   prs: [],
   prComponents: [],
   isLoading: false,
   count: 0,
-  pageInfo: {
-    startCursor: '',
-    hasPreviousPage: false,
-    hasNextPage: false,
-    endCursor: '',
-  },
 };
 
 export const AppReducer = (state, action) => {
@@ -46,10 +40,10 @@ export const AppReducer = (state, action) => {
         ...state,
         isLoading: false,
       };
-    case 'UPDATE_PAGE_INFO':
+    case 'UPDATE_SEARCH':
       return {
         ...state,
-        pageInfo: action.pageInfo,
+        search: action.search,
       };
     default:
       return state;

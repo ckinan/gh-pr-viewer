@@ -8,6 +8,8 @@ exports.handler = async function (event) {
   console.log(`Is token valid? ${auth.check(event)}`);
   const user = event.queryStringParameters.user;
   const searchType = event.queryStringParameters.searchType;
+  const paginationActionType = event.queryStringParameters.paginationActionType;
+  const cursor = event.queryStringParameters.cursor;
 
   try {
     const graphQLClient = new GraphQLClient(endpoint, {
@@ -23,8 +25,20 @@ exports.handler = async function (event) {
       userQuery = `${searchType}:${user}`;
     }
 
+    let paginationQuery = '';
+    const pageCount = 2;
+    if (paginationActionType === 'previous') {
+      paginationQuery = `last:${pageCount}, before:"${cursor}"`;
+    } else if (paginationActionType === 'next') {
+      paginationQuery = `first:${pageCount}, after:"${cursor}"`;
+    } else {
+      paginationQuery = `first:${pageCount}`;
+    }
+
     const response = await graphQLClient.request(
-      query.replace('<userQuery>', userQuery)
+      query
+        .replace('<userQuery>', userQuery)
+        .replace('<paginationQuery>', paginationQuery)
     );
     return {
       statusCode: 200,
@@ -39,11 +53,9 @@ exports.handler = async function (event) {
   }
 };
 
-// search(query: "<searchType>:<user> is:open is:pr ", type: ISSUE, first: 2, after: "<cursor>") {
-
 const query = `{
   __typename
-  search(query: "<userQuery> is:open is:pr ", type: ISSUE, first: 10) {
+  search(query: "<userQuery> is:open is:pr ", type: ISSUE, <paginationQuery>) {
     edges {
       node {
         ... on PullRequest {
