@@ -11,7 +11,7 @@ const RootContainer = () => {
   const { state, dispatch } = useContext(AppContext);
 
   useEffect(() => {
-    fetch('/api/gh-check-auth')
+    fetch('/.netlify/functions/gh-check-auth')
       .then((response) => {
         return response.json();
       })

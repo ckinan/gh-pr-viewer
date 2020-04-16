@@ -25,7 +25,7 @@ const SearchForm = () => {
 
     if (userParam) {
       let response = await fetch(
-        `/api/gh-fetch-pull-requests?user=${userParam}&searchType=${searchTypeParam}`
+        `/.netlify/functions/gh-fetch-pull-requests?user=${userParam}&searchType=${searchTypeParam}`
       ).then(function (response) {
         return response.json();
       });
