@@ -37,5 +37,6 @@ const query = `{
   viewer {
     login
     avatarUrl
+    url
   }
 }`;
