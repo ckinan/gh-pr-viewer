@@ -8,7 +8,7 @@ const Header = ({ avatarUrl }) => {
 
   const handleLogout = (e) => {
     e.preventDefault();
-    fetch('/.netlify/functions/gh-logout').then((response) => {
+    fetch('/api/gh-logout').then((response) => {
       if (response.ok) {
         dispatch({
           type: 'UPDATE_USER_LOGGED_IN',

@@ -11,7 +11,7 @@ const Pagination = () => {
 
     if (state.search.user) {
       let response = await fetch(
-        `/.netlify/functions/gh-fetch-pull-requests?user=${state.search.user}&searchType=${state.search.searchType}&paginationActionType=${actionType}&cursor=${cursor}`
+        `/api/gh-fetch-pull-requests?user=${state.search.user}&searchType=${state.search.searchType}&paginationActionType=${actionType}&cursor=${cursor}`
       ).then(function (response) {
         return response.json();
       });
