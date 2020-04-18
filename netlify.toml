@@ -2,3 +2,15 @@
     command = "npm run build"
     functions = "src/server"
     publish = "public"
+
+[[redirects]]
+  from = "/api/gh-logout"
+  to = "/.netlify/functions/gh-logout"
+
+[[redirects]]
+  from = "/api/gh-fetch-pull-requests"
+  to = "/.netlify/functions/gh-fetch-pull-requests"
+
+[[redirects]]
+  from = "/api/gh-check-auth"
+  to = "/.netlify/functions/gh-check-auth"
