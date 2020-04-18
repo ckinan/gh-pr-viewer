@@ -1,6 +1,6 @@
 import React, { useReducer } from 'react';
 import './App.scss';
-import { AppContext, initialState, AppReducer } from './AppContext.js';
+import { AppContext, initialState, AppReducer } from './AppContext';
 import RootContainer from './RootContainer';
 
 const App = () => {

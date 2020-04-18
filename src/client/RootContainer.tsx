@@ -3,7 +3,7 @@ import Header from './Header';
 import PublicView from './PublicView';
 import ProtectedView from './ProtectedView';
 import './App.scss';
-import { AppContext } from './AppContext.js';
+import { AppContext } from './AppContext';
 
 const RootContainer = () => {
   // TODO: Should we use a global 'isLoading' state? Today I have one for the auth-check and another for the PR Rows

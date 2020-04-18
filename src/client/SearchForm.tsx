@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { AppContext } from './AppContext.js';
+import { AppContext } from './AppContext';
 import { useHistory, useParams, useLocation } from 'react-router-dom';
 import PullRequestBoxRow from './PullRequestBoxRow';
 
