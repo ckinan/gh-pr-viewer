@@ -11,6 +11,10 @@ Clone of https://github.com/pulls with some variations.
 
 ## Run
 
+### Pre-requisites
+
+- Netlify CLI: https://www.netlify.com/products/dev/
+
 ### Locally
 
 Create a `.env` file with your Github OAuth App information:
