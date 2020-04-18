@@ -52,15 +52,21 @@ const Header = ({ avatarUrl }) => {
                   Signed in as <strong>{state.loggedInUser.login}</strong>
                 </a>
               </li>
-              <li className="dropdown-divider" role="separator"></li>
-              <li>
-                <a
-                  className="dropdown-item text-small"
-                  onClick={(e) => handleLogout(e)}
-                >
-                  Sign out
-                </a>
-              </li>
+              {state.loggedInUser.isLoginGhWebFlow === true ? (
+                <>
+                  <li className="dropdown-divider" role="separator"></li>
+                  <li>
+                    <a
+                      className="dropdown-item text-small"
+                      onClick={(e) => handleLogout(e)}
+                    >
+                      Sign out
+                    </a>
+                  </li>
+                </>
+              ) : (
+                <></>
+              )}
             </ul>
           </details>
         </div>

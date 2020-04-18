@@ -2,24 +2,28 @@ const auth = require('./commons/auth');
 const graphqlRequest = require('graphql-request');
 const { GraphQLClient } = graphqlRequest;
 const endpoint = 'https://api.github.com/graphql';
+const GITHUB_PAT = process.env.GITHUB_PAT;
 
 exports.handler = async function (event) {
   console.log(`Is token valid? ${auth.check(event)}`);
 
   try {
-    if (!auth.check(event)) {
+    if (!auth.check(event) && !GITHUB_PAT) {
       return {
         statusCode: 403,
         body: JSON.stringify({}),
       };
     }
+
+    const token = GITHUB_PAT ? GITHUB_PAT : auth.getToken(event);
     const graphQLClient = new GraphQLClient(endpoint, {
       headers: {
-        authorization: `Bearer ${auth.getToken(event)}`,
+        authorization: `Bearer ${token}`,
       },
     });
     const response = await graphQLClient.request(query);
-    const data = await response.viewer;
+    let data = await response.viewer;
+    data.isLoginGhWebFlow = !GITHUB_PAT;
 
     return {
       statusCode: 200,

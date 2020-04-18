@@ -12,9 +12,10 @@ exports.handler = async function (event) {
   const cursor = event.queryStringParameters.cursor;
 
   try {
+    const token = GITHUB_PAT ? GITHUB_PAT : auth.getToken(event);
     const graphQLClient = new GraphQLClient(endpoint, {
       headers: {
-        authorization: `Bearer ${GITHUB_PAT}`,
+        authorization: `Bearer ${token}`,
       },
     });
 
