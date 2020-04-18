@@ -54,6 +54,7 @@ exports.handler = async function (event) {
   }
 };
 
+// TODO: Investigate best pratices to build GraphQL queries. Definitely, doing "replace" of a string is not the best way...
 const query = `{
   __typename
   search(query: "<userQuery> is:open is:pr ", type: ISSUE, <paginationQuery>) {
