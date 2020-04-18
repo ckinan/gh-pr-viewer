@@ -20,6 +20,7 @@ const PullRequestBoxRow = ({ pr }) => {
   useEffect(() => {
     let reviewers = {};
 
+    // TODO: Abstract this logic. Typename should be the key.
     for (let timelineItem of pr.timelineItems.nodes) {
       if (
         timelineItem.__typename === 'ReviewRequestedEvent' &&
@@ -66,6 +67,7 @@ const PullRequestBoxRow = ({ pr }) => {
     <li className="Box-row pt-2 pb-2">
       <div>
         <div className="d-table-cell">
+          {/** TODO: I am currenlty showing OPEN PRs only. No need logic for MERGED or CLOSED PRs */}
           {pr.state === 'MERGED' ? (
             <Octicon icon={GitMerge} className="text-purple" />
           ) : pr.state === 'OPEN' ? (
@@ -106,6 +108,8 @@ const PullRequestBoxRow = ({ pr }) => {
             <PullRequestDate label="Merged at" date={pr.mergedAt} />
           </div>
 
+          {/** TODO: Create a new component for Reviewer State Counters */}
+          {/** TODO: Consider the scenario where a reviewer is excluded from the list */}
           <div className="d-table text-small text-gray-light">
             <div className="float-md-left pr-3">
               <strong>

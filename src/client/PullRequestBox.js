@@ -10,6 +10,9 @@ const PullRequestBox = () => {
       <div className="Box">
         <PullRequestBoxHeader />
 
+        {/**
+         * TODO: Re-evaluate a global isLoading
+         */}
         {state.isLoading ? (
           <ul>
             <li className="Box-row text-center">
@@ -20,6 +23,9 @@ const PullRequestBox = () => {
             </li>
           </ul>
         ) : state.prComponents.length > 0 ? (
+          /**
+           * TODO: prComponents should be generated here, in PRBox
+           */
           <ul>{state.prComponents}</ul>
         ) : (
           <div className="blankslate">
