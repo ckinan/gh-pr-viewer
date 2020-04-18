@@ -4,8 +4,11 @@ import { useHistory, useParams, useLocation } from 'react-router-dom';
 import PullRequestBoxRow from './PullRequestBoxRow';
 
 const SearchForm = () => {
+  // TODO: Understand when we can use useState VS useContext for this type of data
+  // TODO: Set the logged user as default state
   const [user, setUser] = useState('');
   const [searchType, setSearchType] = useState('author');
+  // TODO: Do now destructure state if not used at all. Same for other parts of the code
   const { state, dispatch } = useContext(AppContext);
   const history = useHistory();
   const query = useQuery();
@@ -19,6 +22,7 @@ const SearchForm = () => {
     history.push(`/?user=${user}&searchType=${searchType}`);
   };
 
+  // TODO: This fetch should be reusable (this is also used in Pagination component)
   const fetchPullRequests = async (userParam, searchTypeParam) => {
     dispatch({ type: 'START_LOADING' });
     let prComponents = [];
@@ -30,10 +34,14 @@ const SearchForm = () => {
         return response.json();
       });
 
+      // TODO: This component generation should belong to the PullRequestBox, not here
+      //       SearchForm should just update the results data in the context, but should not know anything about PRBoxes at all
       for (const pr of response.edges) {
         prComponents.push(<PullRequestBoxRow pr={pr.node} key={pr.node.id} />);
       }
 
+      // TODO: Should we really need to separate PRS, COUNTS, PAGE_INFO?
+      //       Maybe worth it storing all them together within the response body AS IS to avoid complexity
       dispatch({
         type: 'UPDATE_PRS',
         prs: response.edges,
@@ -64,6 +72,7 @@ const SearchForm = () => {
       prComponents: prComponents,
     });
 
+    // TODO: Think about a way to have one single global isLoading functionality
     dispatch({ type: 'STOP_LOADING' });
   };
 
@@ -90,6 +99,9 @@ const SearchForm = () => {
   return (
     <div className="d-flex mb-3 flex-column flex-md-row p-2 p-md-0">
       <div className="d-flex d-sm-block">
+        {/**
+         * TODO: Extract these buttons into a separate component
+         */}
         <button
           className={`flex-1 btn BtnGroup-item btn-outline ${
             searchType === 'author'
@@ -147,6 +159,7 @@ const SearchForm = () => {
   );
 };
 
+// TODO: Extract to a separate file
 const useQuery = () => {
   return new URLSearchParams(useLocation().search);
 };

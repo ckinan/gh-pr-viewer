@@ -6,10 +6,13 @@ import './App.scss';
 import { AppContext } from './AppContext.js';
 
 const RootContainer = () => {
+  // TODO: Should we use a global 'isLoading' state? Today I have one for the auth-check and another for the PR Rows
   const [isLoading, setIsLoading] = useState(true);
+  // TODO: Same here, we have a global 'loggedInUser' and this local state hook. Should we have only 1 state with that information?
   const [avatarUrl, setAvatarUrl] = useState('');
   const { state, dispatch } = useContext(AppContext);
 
+  // TODO: Evaluate whether this fetch to gh-check-auth should belong here???
   useEffect(() => {
     fetch('/api/gh-check-auth')
       .then((response) => {
@@ -40,6 +43,10 @@ const RootContainer = () => {
       ) : Object.keys(state.loggedInUser).length > 0 ||
         state.loggedInUser.isLoginGhWebFlow === false ? (
         <>
+          {/*
+          TODO: Move this Warning message to the ProtectedView
+          TODO: Create a separate component for Messages
+          */}
           {state.loggedInUser.isLoginGhWebFlow === false ? (
             <div class="flash flash-warn">
               <strong>WARNING:</strong> You are using a Personal Access Token.
@@ -55,6 +62,9 @@ const RootContainer = () => {
       ) : (
         <PublicView />
       )}
+      {/*
+        TODO: Move ProtectedView and PublicView into a new component: Body. Logic to toggle views between them should be there
+        */}
     </>
   );
 };

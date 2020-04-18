@@ -7,6 +7,9 @@ import { BrowserRouter, Route } from 'react-router-dom';
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
+      {/**
+       * TODO: Create /app root for ProtectedView and exact / for PublicView
+       */}
       <Route exact path="/" component={App} />
     </BrowserRouter>
   </React.StrictMode>,

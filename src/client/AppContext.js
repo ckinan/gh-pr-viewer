@@ -1,6 +1,8 @@
 import React from 'react';
 export const AppContext = React.createContext();
 
+// TODO: Separate the Context : Auth Information <> App Information
+
 export const initialState = {
   search: {
     user: '',
@@ -13,6 +15,8 @@ export const initialState = {
   count: 0,
   loggedInUser: {},
 };
+
+// TODO: Revisit the responsibilities of this AppReducer action types
 
 export const AppReducer = (state, action) => {
   switch (action.type) {
