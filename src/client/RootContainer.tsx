@@ -48,7 +48,7 @@ const RootContainer = () => {
           TODO: Create a separate component for Messages
           */}
           {state.loggedInUser.isLoginGhWebFlow === false ? (
-            <div class="flash flash-warn">
+            <div className="flash flash-warn">
               <strong>WARNING:</strong> You are using a Personal Access Token.
               Use this only for development or working locally. For
               public/production environment, use Authentication via Github Web
