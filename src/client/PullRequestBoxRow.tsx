@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import Octicon, {
-  GitMerge,
   GitPullRequest,
   Check,
   RequestChanges,
@@ -67,14 +66,7 @@ const PullRequestBoxRow = ({ pr }) => {
     <li className="Box-row pt-2 pb-2">
       <div>
         <div className="d-table-cell">
-          {/** TODO-1: I am currenlty showing OPEN PRs only. No need logic for MERGED or CLOSED PRs */}
-          {pr.state === 'MERGED' ? (
-            <Octicon icon={GitMerge} className="text-purple" />
-          ) : pr.state === 'OPEN' ? (
-            <Octicon icon={GitPullRequest} className="text-green" />
-          ) : (
-            <Octicon icon={GitPullRequest} className="text-red" />
-          )}
+          <Octicon icon={GitPullRequest} className="text-green" />
         </div>
         <div className="d-table-cell pl-2">
           <div className="mb-1">
