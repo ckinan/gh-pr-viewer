@@ -56,24 +56,27 @@ const Pagination = () => {
   return (
     <nav className="paginate-container" aria-label="Pagination">
       <div className="pagination">
-        <span
-          className="previous_page"
+        <button
+          className="btn BtnGroup-item btn-outline"
           aria-disabled={!state.search.pageInfo.hasPreviousPage}
+          disabled={!state.search.pageInfo.hasPreviousPage}
           onClick={(e) =>
             handlePagination(e, 'previous', state.search.pageInfo.startCursor)
           }
+          type="button"
         >
           Previous
-        </span>
-        <span
-          className="next_page"
+        </button>
+        <button
+          className="btn BtnGroup-item btn-outline"
           aria-disabled={!state.search.pageInfo.hasNextPage}
+          disabled={!state.search.pageInfo.hasNextPage}
           onClick={(e) =>
             handlePagination(e, 'next', state.search.pageInfo.endCursor)
           }
         >
           Next
-        </span>
+        </button>
       </div>
     </nav>
   );
