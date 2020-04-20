@@ -1,21 +1,21 @@
-const auth = require('./commons/auth');
 const graphqlRequest = require('graphql-request');
 const { GraphQLClient } = graphqlRequest;
 const endpoint = 'https://api.github.com/graphql';
 const GITHUB_PAT = process.env.GITHUB_PAT;
 
-exports.handler = async function (event) {
-  console.log(`Is token valid? ${auth.check(event)}`);
-  const user = event.queryStringParameters.user;
-  const searchType = event.queryStringParameters.searchType;
-  const paginationActionType = event.queryStringParameters.paginationActionType;
-  const cursor = event.queryStringParameters.cursor;
-
+exports.fetchPullRequests = async function (
+  user,
+  searchType,
+  paginationActionType,
+  cursor,
+  token
+) {
   try {
-    const token = GITHUB_PAT ? GITHUB_PAT : auth.getToken(event);
+    const bearer = GITHUB_PAT ? GITHUB_PAT : token;
+
     const graphQLClient = new GraphQLClient(endpoint, {
       headers: {
-        authorization: `Bearer ${token}`,
+        authorization: `Bearer ${bearer}`,
       },
     });
 
@@ -27,7 +27,7 @@ exports.handler = async function (event) {
     }
 
     let paginationQuery = '';
-    const pageCount = 5;
+    const pageCount = 3;
     if (paginationActionType === 'previous') {
       paginationQuery = `last:${pageCount}, before:"${cursor}"`;
     } else if (paginationActionType === 'next') {
@@ -41,16 +41,9 @@ exports.handler = async function (event) {
         .replace('<userQuery>', userQuery)
         .replace('<paginationQuery>', paginationQuery)
     );
-    return {
-      statusCode: 200,
-      body: JSON.stringify(response.search),
-    };
+    return response.search;
   } catch (err) {
-    console.log(err);
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ msg: err.message }), // Could be a custom message or object i.e. JSON.stringify(err)
-    };
+    throw new Error(err.message);
   }
 };
 

@@ -7,7 +7,6 @@ const SearchForm = () => {
   // TODO: Understand when we can use useState VS useContext for this type of data
   const [user, setUser] = useState('');
   const [searchType, setSearchType] = useState('author');
-  // TODO-1: Do not destructure state if not used at all. Same for other parts of the code
   const { state, dispatch } = useContext(AppContext);
   const history = useHistory();
   const query = useQuery();
@@ -104,9 +103,6 @@ const SearchForm = () => {
   return (
     <div className="d-flex mb-3 flex-column flex-md-row p-2 p-md-0">
       <div className="d-flex d-sm-block">
-        {/**
-         * TODO-1: Extract these buttons into a separate component
-         */}
         <button
           className={`flex-1 btn BtnGroup-item btn-outline ${
             searchType === 'author'
@@ -164,7 +160,6 @@ const SearchForm = () => {
   );
 };
 
-// TODO-1: Extract to a separate file
 const useQuery = () => {
   return new URLSearchParams(useLocation().search);
 };
