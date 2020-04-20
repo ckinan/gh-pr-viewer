@@ -5,10 +5,7 @@ import Pagination from './Pagination';
 
 const ProtectedView = () => {
   return (
-    <div className="mx-auto my-3" style={{ maxWidth: '900px' }}>
-      {/**
-       * TODO: May worth increase the maxWidth ^^^
-       */}
+    <div className="mx-auto my-3" style={{ maxWidth: '1024px' }}>
       <SearchForm />
       <PullRequestBox />
       <Pagination />

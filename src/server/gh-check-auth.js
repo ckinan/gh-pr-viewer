@@ -4,7 +4,7 @@ const { GraphQLClient } = graphqlRequest;
 const endpoint = 'https://api.github.com/graphql';
 const GITHUB_PAT = process.env.GITHUB_PAT;
 
-// TODO: In general, all logic in server side should be in another layer, like 'services'.
+// TODO-1: In general, all logic in server side should be in another layer, like 'services'.
 //       And this should only be how I expose the service. Today is Netlify Functions, tomorrow can be Express.
 exports.handler = async function (event) {
   console.log(`Is token valid? ${auth.check(event)}`);

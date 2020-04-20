@@ -5,10 +5,10 @@ import PullRequestBoxRow from './PullRequestBoxRow';
 
 const SearchForm = () => {
   // TODO: Understand when we can use useState VS useContext for this type of data
-  // TODO: Set the logged user as default state
+  // TODO-1: Set the logged user as default state
   const [user, setUser] = useState('');
   const [searchType, setSearchType] = useState('author');
-  // TODO: Do now destructure state if not used at all. Same for other parts of the code
+  // TODO-1: Do not destructure state if not used at all. Same for other parts of the code
   const { state, dispatch } = useContext(AppContext);
   const history = useHistory();
   const query = useQuery();
@@ -100,7 +100,7 @@ const SearchForm = () => {
     <div className="d-flex mb-3 flex-column flex-md-row p-2 p-md-0">
       <div className="d-flex d-sm-block">
         {/**
-         * TODO: Extract these buttons into a separate component
+         * TODO-1: Extract these buttons into a separate component
          */}
         <button
           className={`flex-1 btn BtnGroup-item btn-outline ${
@@ -159,7 +159,7 @@ const SearchForm = () => {
   );
 };
 
-// TODO: Extract to a separate file
+// TODO-1: Extract to a separate file
 const useQuery = () => {
   return new URLSearchParams(useLocation().search);
 };

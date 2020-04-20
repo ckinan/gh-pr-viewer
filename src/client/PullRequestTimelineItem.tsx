@@ -49,7 +49,7 @@ const PullRequestTimelineItem = ({ node }) => {
   );
 };
 
-// TODO: Move this to a constant file
+// TODO: Should I move this to a constant file?
 const timelineItemConfig = {
   PullRequestCommit: {
     icon: () => {
