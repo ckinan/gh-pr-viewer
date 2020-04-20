@@ -1,13 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import Octicon, {
-  GitPullRequest,
-  Check,
-  RequestChanges,
-  Comment,
-  PrimitiveDot,
-} from '@primer/octicons-react';
+import Octicon, { GitPullRequest } from '@primer/octicons-react';
 import PullRequestTimelineItem from './PullRequestTimelineItem';
 import PullRequestDate from './PullRequestDate';
+import ReviewerState from './ReviewerState';
 
 const PullRequestBoxRow = ({ pr }) => {
   const [approved, setApproved] = useState(0);
@@ -100,34 +95,12 @@ const PullRequestBoxRow = ({ pr }) => {
             <PullRequestDate label="Merged at" date={pr.mergedAt} />
           </div>
 
-          {/** TODO-1: Create a new component for Reviewer State Counters */}
           {/** TODO: Consider the scenario where a reviewer is excluded from the list */}
           <div className="d-table text-small text-gray-light">
-            <div className="float-md-left pr-3">
-              <strong>
-                <Octicon icon={Check} className="text-green" /> Approved
-              </strong>
-              : <span>{approved}</span>
-            </div>
-            <div className="float-md-left pr-3">
-              <strong>
-                <Octicon icon={RequestChanges} className="text-red" /> Requested
-                Changes
-              </strong>
-              : <span>{changesRequested}</span>
-            </div>
-            <div className="float-md-left pr-3">
-              <strong>
-                <Octicon icon={Comment} className="text-gray" /> Commented
-              </strong>
-              : <span>{commented}</span>
-            </div>
-            <div className="float-md-left pr-3">
-              <strong>
-                <Octicon icon={PrimitiveDot} className="text-yellow" /> Awaiting
-              </strong>
-              : <span>{awaiting}</span>
-            </div>
+            <ReviewerState type="APPROVED" count={approved} />
+            <ReviewerState type="CHANGES_REQUESTED" count={changesRequested} />
+            <ReviewerState type="COMMENTED" count={commented} />
+            <ReviewerState type="AWAITING" count={awaiting} />
           </div>
 
           <details className="details-reset">
