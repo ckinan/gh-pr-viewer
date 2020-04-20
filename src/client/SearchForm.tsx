@@ -5,7 +5,6 @@ import PullRequestBoxRow from './PullRequestBoxRow';
 
 const SearchForm = () => {
   // TODO: Understand when we can use useState VS useContext for this type of data
-  // TODO-1: Set the logged user as default state
   const [user, setUser] = useState('');
   const [searchType, setSearchType] = useState('author');
   // TODO-1: Do not destructure state if not used at all. Same for other parts of the code
@@ -78,16 +77,22 @@ const SearchForm = () => {
 
   useEffect(() => {
     const userParam = query.get('user') ? query.get('user') : '';
-    const searchTypeParam = query.get('searchType')
-      ? query.get('searchType')
-      : 'author';
+    if (!userParam) {
+      history.push(
+        `/?user=${state.loggedInUser.login}&searchType=${searchType}`
+      );
+    } else {
+      const searchTypeParam = query.get('searchType')
+        ? query.get('searchType')
+        : 'author';
 
-    document.title = `${userParam} PRs`;
+      document.title = `${userParam} PRs`;
 
-    fetchPullRequests(userParam, searchTypeParam);
+      fetchPullRequests(userParam, searchTypeParam);
 
-    setUser(userParam);
-    setSearchType(searchTypeParam);
+      setUser(userParam);
+      setSearchType(searchTypeParam);
+    }
   }, [query.get('user'), query.get('searchType')]);
 
   const handleSearchType = (e, searchType) => {
