@@ -1,40 +1,23 @@
-const GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET;
-const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID;
-const GITHUB_ACCESS_TOKEN_URL = 'https://github.com/login/oauth/access_token';
-
-const fetch = require('node-fetch');
-const auth = require('./commons/auth');
+const auth = require('../../commons/auth');
+const GhApiClientService = require('../../services/gh-api-client-service');
 
 exports.handler = async function (event) {
   const code = event.queryStringParameters.code;
-  const params = new URLSearchParams();
-  params.append('client_secret', GITHUB_CLIENT_SECRET);
-  params.append('client_id', GITHUB_CLIENT_ID);
-  params.append('code', code);
-
   try {
-    const response = await fetch(GITHUB_ACCESS_TOKEN_URL, {
-      method: 'POST',
-      body: params,
-      headers: { Accept: 'application/json' },
-    });
-
-    const data = await response.json();
-
+    const accessToken = await GhApiClientService.oauthAccessToken(code);
     return {
       statusCode: 302,
       body: JSON.stringify({}),
       headers: {
         Location: '/',
-        'Set-Cookie': auth.create(data.access_token),
+        'Set-Cookie': auth.create(accessToken),
         'Cache-Control': 'no-cache',
       },
     };
   } catch (err) {
-    console.log(err); // output to netlify function log
     return {
-      statusCode: 500,
-      body: JSON.stringify({ msg: err.message }), // Could be a custom message or object i.e. JSON.stringify(err)
+      statusCode: err.code ? err.code : 500,
+      body: JSON.stringify({ msg: err.message }),
     };
   }
 };

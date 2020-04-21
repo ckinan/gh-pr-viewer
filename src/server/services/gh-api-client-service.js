@@ -2,6 +2,13 @@ const graphqlRequest = require('graphql-request');
 const { GraphQLClient } = graphqlRequest;
 const endpoint = 'https://api.github.com/graphql';
 const GITHUB_PAT = process.env.GITHUB_PAT;
+const { AuthorizationError } = require('../commons/error-types');
+
+const GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET;
+const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID;
+const GITHUB_ACCESS_TOKEN_URL = 'https://github.com/login/oauth/access_token';
+
+const fetch = require('node-fetch');
 
 exports.fetchPullRequests = async function (
   user,
@@ -12,7 +19,7 @@ exports.fetchPullRequests = async function (
 ) {
   try {
     const bearer = GITHUB_PAT ? GITHUB_PAT : token;
-
+    // TODO: Handle the case where the token is expired. Try this here: const bearer = 123;
     const graphQLClient = new GraphQLClient(endpoint, {
       headers: {
         authorization: `Bearer ${bearer}`,
@@ -37,18 +44,81 @@ exports.fetchPullRequests = async function (
     }
 
     const response = await graphQLClient.request(
-      query
+      queryFetchPullRequests
         .replace('<userQuery>', userQuery)
         .replace('<paginationQuery>', paginationQuery)
     );
     return response.search;
   } catch (err) {
-    throw new Error(err.message);
+    if (err.response && err.response.status === 401) {
+      throw new AuthorizationError();
+    } else {
+      throw new Error(err.message);
+    }
   }
 };
 
+exports.fetchUser = async function (token) {
+  try {
+    if (!token && !GITHUB_PAT) {
+      throw new AuthorizationError();
+    }
+
+    const bearer = GITHUB_PAT ? GITHUB_PAT : token;
+    const graphQLClient = new GraphQLClient(endpoint, {
+      headers: {
+        authorization: `Bearer ${bearer}`,
+      },
+    });
+
+    const response = await graphQLClient.request(queryFetchUser);
+    let data = await response.viewer;
+    data.isLoginGhWebFlow = !GITHUB_PAT;
+    console.log(data);
+    return data;
+  } catch (err) {
+    if (err.response && err.response.status === 401) {
+      throw new AuthorizationError();
+    } else {
+      throw new Error(err.message);
+    }
+  }
+};
+
+exports.oauthAccessToken = async function (code) {
+  const params = new URLSearchParams();
+  params.append('client_secret', GITHUB_CLIENT_SECRET);
+  params.append('client_id', GITHUB_CLIENT_ID);
+  params.append('code', code);
+
+  try {
+    const response = await fetch(GITHUB_ACCESS_TOKEN_URL, {
+      method: 'POST',
+      body: params,
+      headers: { Accept: 'application/json' },
+    });
+
+    const data = await response.json();
+    return data.access_token;
+  } catch (err) {
+    if (err.response && err.response.status === 401) {
+      throw new AuthorizationError();
+    } else {
+      throw new Error(err.message);
+    }
+  }
+};
+
+const queryFetchUser = `{
+  viewer {
+    login
+    avatarUrl
+    url
+  }
+}`;
+
 // TODO: Investigate best pratices to build GraphQL queries. Definitely, doing "replace" of a string is not the best way...
-const query = `{
+const queryFetchPullRequests = `{
   __typename
   search(query: "<userQuery> is:open is:pr ", type: ISSUE, <paginationQuery>) {
     edges {

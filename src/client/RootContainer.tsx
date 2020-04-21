@@ -14,7 +14,7 @@ const RootContainer = () => {
 
   // TODO: Evaluate whether this fetch to gh-check-auth should belong here???
   useEffect(() => {
-    fetch('/api/gh-check-auth')
+    fetch('/api/gh-fetch-user')
       .then((response) => {
         return response.json();
       })
@@ -40,7 +40,7 @@ const RootContainer = () => {
             </h2>
           </div>
         </div>
-      ) : Object.keys(state.loggedInUser).length > 0 ||
+      ) : (state.loggedInUser && state.loggedInUser.login) ||
         state.loggedInUser.isLoginGhWebFlow === false ? (
         <>
           {/*
