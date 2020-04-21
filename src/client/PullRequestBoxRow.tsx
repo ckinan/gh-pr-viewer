@@ -9,14 +9,14 @@ interface IProps {
 }
 
 const PullRequestBoxRow: React.FC<IProps> = ({ pr }) => {
-  const [approved, setApproved] = useState(0);
-  const [changesRequested, setChangesRequested] = useState(0);
-  const [commented, setCommented] = useState(0);
-  const [awaiting, setAwaiting] = useState(0);
-  const [reviewers, setReviewers] = useState({});
+  const [approved, setApproved] = useState<number>(0);
+  const [changesRequested, setChangesRequested] = useState<number>(0);
+  const [commented, setCommented] = useState<number>(0);
+  const [awaiting, setAwaiting] = useState<number>(0);
+  const [reviewers, setReviewers] = useState<any>({});
 
   useEffect(() => {
-    let reviewers = {};
+    let reviewers: any = {};
 
     // TODO: Abstract this logic. Typename should be the key.
     for (let timelineItem of pr.timelineItems.nodes) {
@@ -43,7 +43,7 @@ const PullRequestBoxRow: React.FC<IProps> = ({ pr }) => {
       }
     }
 
-    let states = {
+    let states: any = {
       APPROVED: 0,
       CHANGES_REQUESTED: 0,
       COMMENTED: 0,
@@ -112,7 +112,7 @@ const PullRequestBoxRow: React.FC<IProps> = ({ pr }) => {
               Events ({pr.timelineItems.nodes.length})
               <span className="dropdown-caret ml-1" />
             </summary>
-            {pr.timelineItems.nodes.map((node) => {
+            {pr.timelineItems.nodes.map((node: any) => {
               return <PullRequestTimelineItem key={node.id} node={node} />;
             })}
           </details>

@@ -1,12 +1,21 @@
 import React from 'react';
 
-export const AuthContext = React.createContext(null);
+interface IState {
+  loggedInUser: any;
+}
+
+interface IAction {
+  type: 'UPDATE_USER_LOGGED_IN';
+  loggedInUser: IState;
+}
+
+export const AuthContext = React.createContext<any | null>(null);
 
 export const authContextInitialState = {
   loggedInUser: {},
 };
 
-export const AuthReducer = (state, action) => {
+export const AuthReducer = (state: IState, action: IAction) => {
   switch (action.type) {
     case 'UPDATE_USER_LOGGED_IN':
       return {

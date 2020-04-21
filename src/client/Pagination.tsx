@@ -5,7 +5,7 @@ import PullRequestBoxRow from './PullRequestBoxRow';
 const Pagination: React.FC = () => {
   const { appState, appDispatch } = useContext(AppContext);
 
-  const fetchPullRequests = async (actionType, cursor) => {
+  const fetchPullRequests = async (actionType: string, cursor: string) => {
     appDispatch({ type: 'START_LOADING' });
     let prComponents = [];
 
@@ -48,7 +48,11 @@ const Pagination: React.FC = () => {
     appDispatch({ type: 'STOP_LOADING' });
   };
 
-  const handlePagination = (e, actionType, cursor) => {
+  const handlePagination = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    actionType: string,
+    cursor: string
+  ) => {
     e.preventDefault();
     fetchPullRequests(actionType, cursor);
   };
@@ -60,7 +64,7 @@ const Pagination: React.FC = () => {
           className="btn BtnGroup-item btn-outline"
           aria-disabled={!appState.search.pageInfo.hasPreviousPage}
           disabled={!appState.search.pageInfo.hasPreviousPage}
-          onClick={(e) =>
+          onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
             handlePagination(
               e,
               'previous',

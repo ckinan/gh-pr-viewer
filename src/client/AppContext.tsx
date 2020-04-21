@@ -1,5 +1,28 @@
 import React from 'react';
-export const AppContext = React.createContext(null);
+
+interface IState {
+  search?: {
+    user: string;
+    searchType: string;
+    pageInfo: any;
+  };
+  prs?: Array<any>;
+  prComponents?: Array<any>;
+  isLoading?: boolean;
+  count?: number;
+}
+
+interface IAction extends IState {
+  type:
+    | 'UPDATE_COUNT'
+    | 'UPDATE_PRS'
+    | 'UPDATE_PR_COMPONENTS'
+    | 'START_LOADING'
+    | 'STOP_LOADING'
+    | 'UPDATE_SEARCH';
+}
+
+export const AppContext = React.createContext<any | null>(null);
 
 export const appContextInitialState = {
   search: {
@@ -15,7 +38,7 @@ export const appContextInitialState = {
 
 // TODO: Revisit the responsibilities of this AppReducer action types
 
-export const AppReducer = (state, action) => {
+export const AppReducer = (state: IState, action: IAction) => {
   switch (action.type) {
     case 'UPDATE_COUNT':
       return {

@@ -30,7 +30,7 @@ const ReviewerState: React.FC<IProps> = ({ type, count }) => {
 
 export default ReviewerState;
 
-const CONFIG = {
+const CONFIG: any = {
   APPROVED: {
     icon: Check,
     className: 'text-green',

@@ -54,7 +54,7 @@ const PullRequestTimelineItem: React.FC<IProps> = ({ node }) => {
 };
 
 // TODO: Should I move this to a constant file?
-const timelineItemConfig = {
+const timelineItemConfig: any = {
   PullRequestCommit: {
     icon: () => {
       return GitCommit;
@@ -62,13 +62,13 @@ const timelineItemConfig = {
     className: () => {
       return 'text-gray';
     },
-    avatarUrl: (node) => {
+    avatarUrl: (node: any) => {
       return node.commit.author.avatarUrl;
     },
-    date: (node) => {
+    date: (node: any) => {
       return node.commit.committedDate;
     },
-    text: (node) => {
+    text: (node: any) => {
       return `${node.commit.message} ${node.commit.abbreviatedOid}`;
     },
   },
@@ -79,13 +79,13 @@ const timelineItemConfig = {
     className: () => {
       return 'text-gray';
     },
-    avatarUrl: (node) => {
+    avatarUrl: (node: any) => {
       return node.actor.avatarUrl;
     },
-    date: (node) => {
+    date: (node: any) => {
       return node.createdAt;
     },
-    text: (node) => {
+    text: (node: any) => {
       return `${node.actor.login} requested a review from ${
         node.requestedReviewer ? node.requestedReviewer.login : '(unknown)'
       }`;
@@ -98,18 +98,18 @@ const timelineItemConfig = {
     className: () => {
       return 'text-gray';
     },
-    avatarUrl: (node) => {
+    avatarUrl: (node: any) => {
       return node.author.avatarUrl;
     },
-    date: (node) => {
+    date: (node: any) => {
       return node.updatedAt;
     },
-    text: (node) => {
+    text: (node: any) => {
       return `${node.author.login} wrote a comment`;
     },
   },
   PullRequestReview: {
-    icon: (node) => {
+    icon: (node: any) => {
       if (node.state === 'APPROVED') {
         return Check;
       } else if (node.state === 'CHANGES_REQUESTED') {
@@ -120,7 +120,7 @@ const timelineItemConfig = {
         return Eye;
       }
     },
-    className: (node) => {
+    className: (node: any) => {
       if (node.state === 'APPROVED') {
         return 'text-green';
       } else if (node.state === 'CHANGES_REQUESTED') {
@@ -129,13 +129,13 @@ const timelineItemConfig = {
         return 'text-gray';
       }
     },
-    avatarUrl: (node) => {
+    avatarUrl: (node: any) => {
       return node.author.avatarUrl;
     },
-    date: (node) => {
+    date: (node: any) => {
       return node.updatedAt;
     },
-    text: (node) => {
+    text: (node: any) => {
       if (node.state === 'APPROVED') {
         return `${node.author.login} approved these changes`;
       } else if (node.state === 'CHANGES_REQUESTED') {

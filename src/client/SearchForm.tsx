@@ -5,23 +5,26 @@ import PullRequestBoxRow from './PullRequestBoxRow';
 
 const SearchForm: React.FC = () => {
   // TODO: Understand when we can use useState VS useContext for this type of data
-  const [user, setUser] = useState('');
-  const [searchType, setSearchType] = useState('author');
+  const [user, setUser] = useState<string>('');
+  const [searchType, setSearchType] = useState<string | null>('author');
   const { appState, appDispatch } = useContext(AppContext);
   const history = useHistory();
   const query = useQuery();
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUser(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     history.push(`/?user=${user}&searchType=${searchType}`);
   };
 
   // TODO: This fetch should be reusable (this is also used in Pagination component)
-  const fetchPullRequests = async (userParam, searchTypeParam) => {
+  const fetchPullRequests = async (
+    userParam: string,
+    searchTypeParam: string | null
+  ) => {
     appDispatch({ type: 'START_LOADING' });
     let prComponents = [];
 
@@ -94,7 +97,10 @@ const SearchForm: React.FC = () => {
     }
   }, [query.get('user'), query.get('searchType')]);
 
-  const handleSearchType = (e, searchType) => {
+  const handleSearchType = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    searchType: string
+  ) => {
     e.preventDefault();
     setSearchType(searchType);
     history.push(`/?user=${user}&searchType=${searchType}`);
@@ -146,14 +152,14 @@ const SearchForm: React.FC = () => {
 
       <form
         className="flex-auto ml-0 ml-md-3 mt-3 mt-md-0"
-        onSubmit={(e) => handleSubmit(e)}
+        onSubmit={(e: React.FormEvent<HTMLFormElement>) => handleSubmit(e)}
       >
         <input
           className="form-control width-full"
           type="text"
           placeholder="User"
           value={user}
-          onChange={(e) => handleChange(e)}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(e)}
         />
       </form>
     </div>

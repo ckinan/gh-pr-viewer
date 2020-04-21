@@ -10,7 +10,7 @@ const Header: React.FC<IProps> = ({ avatarUrl }) => {
   const { authState, authDispatch } = useContext(AuthContext);
   const history = useHistory();
 
-  const handleLogout = (e) => {
+  const handleLogout = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     e.preventDefault();
     fetch('/api/gh-logout').then((response) => {
       if (response.ok) {
@@ -62,7 +62,9 @@ const Header: React.FC<IProps> = ({ avatarUrl }) => {
                   <li>
                     <a
                       className="dropdown-item text-small"
-                      onClick={(e) => handleLogout(e)}
+                      onClick={(
+                        e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
+                      ) => handleLogout(e)}
                     >
                       Sign out
                     </a>

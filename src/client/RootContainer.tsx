@@ -7,9 +7,9 @@ import { AuthContext } from './AuthContext';
 
 const RootContainer: React.FC = () => {
   // TODO: Should we use a global 'isLoading' state? Today I have one for the auth-check and another for the PR Rows
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   // TODO: Same here, we have a global 'loggedInUser' and this local state hook. Should we have only 1 state with that information?
-  const [avatarUrl, setAvatarUrl] = useState('');
+  const [avatarUrl, setAvatarUrl] = useState<string>('');
   const { authState, authDispatch } = useContext(AuthContext);
 
   useEffect(() => {
