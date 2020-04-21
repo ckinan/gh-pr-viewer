@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { AppContext } from './AppContext';
 import PullRequestBoxRow from './PullRequestBoxRow';
 
-const Pagination = () => {
+const Pagination: React.FC = () => {
   const { state, dispatch } = useContext(AppContext);
 
   const fetchPullRequests = async (actionType, cursor) => {

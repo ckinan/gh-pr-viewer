@@ -1,8 +1,12 @@
 import React, { useContext } from 'react';
 import { AppContext } from './AppContext';
-import { useHistory, useParams, useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
-const Header = ({ avatarUrl }) => {
+interface IProps {
+  avatarUrl: string;
+}
+
+const Header: React.FC<IProps> = ({ avatarUrl }) => {
   const { state, dispatch } = useContext(AppContext);
   const history = useHistory();
 

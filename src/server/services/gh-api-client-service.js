@@ -1,9 +1,7 @@
-const graphqlRequest = require('graphql-request');
-const { GraphQLClient } = graphqlRequest;
+const { GraphQLClient } = require('graphql-request');
 const endpoint = 'https://api.github.com/graphql';
 const GITHUB_PAT = process.env.GITHUB_PAT;
 const { AuthorizationError } = require('../commons/error-types');
-
 const GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET;
 const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID;
 const GITHUB_ACCESS_TOKEN_URL = 'https://github.com/login/oauth/access_token';

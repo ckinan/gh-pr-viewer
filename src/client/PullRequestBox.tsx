@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { AppContext } from './AppContext';
 import PullRequestBoxHeader from './PullRequestBoxHeader';
 
-const PullRequestBox = () => {
+const PullRequestBox: React.FC = () => {
   const { state } = useContext(AppContext);
 
   return (

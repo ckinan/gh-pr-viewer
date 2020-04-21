@@ -3,7 +3,7 @@ import './App.scss';
 import { AppContext, initialState, AppReducer } from './AppContext';
 import RootContainer from './RootContainer';
 
-const App = () => {
+const App: React.FC = () => {
   const [state, dispatch] = useReducer(AppReducer, initialState);
 
   return (

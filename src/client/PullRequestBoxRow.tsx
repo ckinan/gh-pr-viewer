@@ -4,7 +4,11 @@ import PullRequestTimelineItem from './PullRequestTimelineItem';
 import PullRequestDate from './PullRequestDate';
 import ReviewerState from './ReviewerState';
 
-const PullRequestBoxRow = ({ pr }) => {
+interface IProps {
+  pr: any;
+}
+
+const PullRequestBoxRow: React.FC<IProps> = ({ pr }) => {
   const [approved, setApproved] = useState(0);
   const [changesRequested, setChangesRequested] = useState(0);
   const [commented, setCommented] = useState(0);

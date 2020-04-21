@@ -1,7 +1,12 @@
 import React from 'react';
 import moment from 'moment';
 
-const PullRequestDate = ({label, date}) => {
+interface IProps {
+  label: string;
+  date: string;
+}
+
+const PullRequestDate: React.FC<IProps> = ({ label, date }) => {
   return date ? (
     <div className="float-md-left pr-3">
       <strong>{label}</strong>:{' '}

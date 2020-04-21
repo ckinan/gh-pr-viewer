@@ -9,7 +9,11 @@ import Octicon, {
 } from '@primer/octicons-react';
 import moment from 'moment';
 
-const PullRequestTimelineItem = ({ node }) => {
+interface IProps {
+  node: any;
+}
+
+const PullRequestTimelineItem: React.FC<IProps> = ({ node }) => {
   return (
     <div className="TimelineItem TimelineItem--condensed text-small">
       <div className="TimelineItem-badge">

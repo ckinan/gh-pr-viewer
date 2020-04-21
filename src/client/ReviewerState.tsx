@@ -6,7 +6,12 @@ import Octicon, {
   PrimitiveDot,
 } from '@primer/octicons-react';
 
-const ReviewerState = ({ type, count }) => {
+interface IProps {
+  type: string;
+  count: number;
+}
+
+const ReviewerState: React.FC<IProps> = ({ type, count }) => {
   return (
     <>
       <div className="float-md-left pr-3">

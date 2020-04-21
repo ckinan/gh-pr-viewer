@@ -5,7 +5,7 @@ import ProtectedView from './ProtectedView';
 import './App.scss';
 import { AppContext } from './AppContext';
 
-const RootContainer = () => {
+const RootContainer: React.FC = () => {
   // TODO: Should we use a global 'isLoading' state? Today I have one for the auth-check and another for the PR Rows
   const [isLoading, setIsLoading] = useState(true);
   // TODO: Same here, we have a global 'loggedInUser' and this local state hook. Should we have only 1 state with that information?

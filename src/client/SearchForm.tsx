@@ -3,7 +3,7 @@ import { AppContext } from './AppContext';
 import { useHistory, useParams, useLocation } from 'react-router-dom';
 import PullRequestBoxRow from './PullRequestBoxRow';
 
-const SearchForm = () => {
+const SearchForm: React.FC = () => {
   // TODO: Understand when we can use useState VS useContext for this type of data
   const [user, setUser] = useState('');
   const [searchType, setSearchType] = useState('author');
