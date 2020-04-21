@@ -3,7 +3,7 @@ export const AppContext = React.createContext(null);
 
 // TODO: Separate the Context : Auth Information <> App Information
 
-export const initialState = {
+export const appContextInitialState = {
   search: {
     user: '',
     searchType: 'author',
@@ -13,7 +13,6 @@ export const initialState = {
   prComponents: [],
   isLoading: false,
   count: 0,
-  loggedInUser: {},
 };
 
 // TODO: Revisit the responsibilities of this AppReducer action types
@@ -49,11 +48,6 @@ export const AppReducer = (state, action) => {
       return {
         ...state,
         search: action.search,
-      };
-    case 'UPDATE_USER_LOGGED_IN':
-      return {
-        ...state,
-        loggedInUser: action.loggedInUser,
       };
     default:
       return state;

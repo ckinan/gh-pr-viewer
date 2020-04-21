@@ -3,7 +3,7 @@ import { AppContext } from './AppContext';
 import PullRequestBoxHeader from './PullRequestBoxHeader';
 
 const PullRequestBox: React.FC = () => {
-  const { state } = useContext(AppContext);
+  const { appState } = useContext(AppContext);
 
   return (
     <>
@@ -13,7 +13,7 @@ const PullRequestBox: React.FC = () => {
         {/**
          * TODO: Re-evaluate a global isLoading
          */}
-        {state.isLoading ? (
+        {appState.isLoading ? (
           <ul>
             <li className="Box-row text-center">
               <h2>
@@ -22,11 +22,11 @@ const PullRequestBox: React.FC = () => {
               </h2>
             </li>
           </ul>
-        ) : state.prComponents.length > 0 ? (
+        ) : appState.prComponents.length > 0 ? (
           /**
            * TODO: prComponents should be generated here, in PRBox
            */
-          <ul>{state.prComponents}</ul>
+          <ul>{appState.prComponents}</ul>
         ) : (
           <div className="blankslate">
             <h3 className="mb-1">No results matched your search.</h3>

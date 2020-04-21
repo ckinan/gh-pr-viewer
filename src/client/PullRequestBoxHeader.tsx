@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { AppContext } from './AppContext';
 
 const PullRequestBoxHeader: React.FC = () => {
-  const { state } = useContext(AppContext);
+  const { appState } = useContext(AppContext);
 
   return (
     <div className="Box-header">
@@ -10,10 +10,10 @@ const PullRequestBoxHeader: React.FC = () => {
         <div className="mr-2">
           Found
           <span className="Counter ml-1">
-            {state.isLoading ? (
+            {appState.isLoading ? (
               <span className="AnimatedEllipsis"></span>
             ) : (
-              state.count
+              appState.count
             )}
           </span>
         </div>

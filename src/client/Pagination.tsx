@@ -3,15 +3,15 @@ import { AppContext } from './AppContext';
 import PullRequestBoxRow from './PullRequestBoxRow';
 
 const Pagination: React.FC = () => {
-  const { state, dispatch } = useContext(AppContext);
+  const { appState, appDispatch } = useContext(AppContext);
 
   const fetchPullRequests = async (actionType, cursor) => {
-    dispatch({ type: 'START_LOADING' });
+    appDispatch({ type: 'START_LOADING' });
     let prComponents = [];
 
-    if (state.search.user) {
+    if (appState.search.user) {
       let response = await fetch(
-        `/api/gh-fetch-pull-requests?user=${state.search.user}&searchType=${state.search.searchType}&paginationActionType=${actionType}&cursor=${cursor}`
+        `/api/gh-fetch-pull-requests?user=${appState.search.user}&searchType=${appState.search.searchType}&paginationActionType=${actionType}&cursor=${cursor}`
       ).then(function (response) {
         return response.json();
       });
@@ -20,32 +20,32 @@ const Pagination: React.FC = () => {
         prComponents.push(<PullRequestBoxRow pr={pr.node} key={pr.node.id} />);
       }
 
-      dispatch({
+      appDispatch({
         type: 'UPDATE_PRS',
         prs: response.edges,
       });
 
-      dispatch({
+      appDispatch({
         type: 'UPDATE_COUNT',
         count: response.issueCount,
       });
 
-      dispatch({
+      appDispatch({
         type: 'UPDATE_SEARCH',
         search: {
-          user: state.search.user,
-          searchType: state.search.searchType,
+          user: appState.search.user,
+          searchType: appState.search.searchType,
           pageInfo: response.pageInfo,
         },
       });
     }
 
-    dispatch({
+    appDispatch({
       type: 'UPDATE_PR_COMPONENTS',
       prComponents: prComponents,
     });
 
-    dispatch({ type: 'STOP_LOADING' });
+    appDispatch({ type: 'STOP_LOADING' });
   };
 
   const handlePagination = (e, actionType, cursor) => {
@@ -58,10 +58,14 @@ const Pagination: React.FC = () => {
       <div className="pagination">
         <button
           className="btn BtnGroup-item btn-outline"
-          aria-disabled={!state.search.pageInfo.hasPreviousPage}
-          disabled={!state.search.pageInfo.hasPreviousPage}
+          aria-disabled={!appState.search.pageInfo.hasPreviousPage}
+          disabled={!appState.search.pageInfo.hasPreviousPage}
           onClick={(e) =>
-            handlePagination(e, 'previous', state.search.pageInfo.startCursor)
+            handlePagination(
+              e,
+              'previous',
+              appState.search.pageInfo.startCursor
+            )
           }
           type="button"
         >
@@ -69,10 +73,10 @@ const Pagination: React.FC = () => {
         </button>
         <button
           className="btn BtnGroup-item btn-outline"
-          aria-disabled={!state.search.pageInfo.hasNextPage}
-          disabled={!state.search.pageInfo.hasNextPage}
+          aria-disabled={!appState.search.pageInfo.hasNextPage}
+          disabled={!appState.search.pageInfo.hasNextPage}
           onClick={(e) =>
-            handlePagination(e, 'next', state.search.pageInfo.endCursor)
+            handlePagination(e, 'next', appState.search.pageInfo.endCursor)
           }
         >
           Next

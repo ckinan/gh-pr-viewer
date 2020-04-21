@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { AppContext } from './AppContext';
+import { AuthContext } from './AuthContext';
 import { useHistory } from 'react-router-dom';
 
 interface IProps {
@@ -7,14 +7,14 @@ interface IProps {
 }
 
 const Header: React.FC<IProps> = ({ avatarUrl }) => {
-  const { state, dispatch } = useContext(AppContext);
+  const { authState, authDispatch } = useContext(AuthContext);
   const history = useHistory();
 
   const handleLogout = (e) => {
     e.preventDefault();
     fetch('/api/gh-logout').then((response) => {
       if (response.ok) {
-        dispatch({
+        authDispatch({
           type: 'UPDATE_USER_LOGGED_IN',
           loggedInUser: {},
         });
@@ -29,7 +29,7 @@ const Header: React.FC<IProps> = ({ avatarUrl }) => {
       <div className="Header-item Header-item--full">
         <span>Github Pull Request Viewer</span>
       </div>
-      {Object.keys(state.loggedInUser).length > 0 ? (
+      {Object.keys(authState.loggedInUser).length > 0 ? (
         <div className="Header-item mr-0">
           <details className="dropdown details-reset details-overlay d-inline-block">
             <summary aria-haspopup="true">
@@ -51,12 +51,12 @@ const Header: React.FC<IProps> = ({ avatarUrl }) => {
               <li>
                 <a
                   className="dropdown-item text-small"
-                  href={state.loggedInUser.url}
+                  href={authState.loggedInUser.url}
                 >
-                  Signed in as <strong>{state.loggedInUser.login}</strong>
+                  Signed in as <strong>{authState.loggedInUser.login}</strong>
                 </a>
               </li>
-              {state.loggedInUser.isLoginGhWebFlow === true ? (
+              {authState.loggedInUser.isLoginGhWebFlow === true ? (
                 <>
                   <li className="dropdown-divider" role="separator"></li>
                   <li>

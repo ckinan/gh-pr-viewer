@@ -1,14 +1,28 @@
 import React, { useReducer } from 'react';
 import './App.scss';
-import { AppContext, initialState, AppReducer } from './AppContext';
+import { AppContext, appContextInitialState, AppReducer } from './AppContext';
+import {
+  AuthContext,
+  authContextInitialState,
+  AuthReducer,
+} from './AuthContext';
 import RootContainer from './RootContainer';
 
 const App: React.FC = () => {
-  const [state, dispatch] = useReducer(AppReducer, initialState);
+  const [appState, appDispatch] = useReducer(
+    AppReducer,
+    appContextInitialState
+  );
+  const [authState, authDispatch] = useReducer(
+    AuthReducer,
+    authContextInitialState
+  );
 
   return (
-    <AppContext.Provider value={{ state, dispatch }}>
-      <RootContainer />
+    <AppContext.Provider value={{ appState, appDispatch }}>
+      <AuthContext.Provider value={{ authState, authDispatch }}>
+        <RootContainer />
+      </AuthContext.Provider>
     </AppContext.Provider>
   );
 };

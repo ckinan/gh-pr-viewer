@@ -7,7 +7,7 @@ const SearchForm: React.FC = () => {
   // TODO: Understand when we can use useState VS useContext for this type of data
   const [user, setUser] = useState('');
   const [searchType, setSearchType] = useState('author');
-  const { state, dispatch } = useContext(AppContext);
+  const { appState, appDispatch } = useContext(AppContext);
   const history = useHistory();
   const query = useQuery();
 
@@ -22,7 +22,7 @@ const SearchForm: React.FC = () => {
 
   // TODO: This fetch should be reusable (this is also used in Pagination component)
   const fetchPullRequests = async (userParam, searchTypeParam) => {
-    dispatch({ type: 'START_LOADING' });
+    appDispatch({ type: 'START_LOADING' });
     let prComponents = [];
 
     if (userParam) {
@@ -40,22 +40,22 @@ const SearchForm: React.FC = () => {
 
       // TODO: Should we really need to separate PRS, COUNTS, PAGE_INFO?
       //       Maybe worth it storing all them together within the response body AS IS to avoid complexity
-      dispatch({
+      appDispatch({
         type: 'UPDATE_PRS',
         prs: response.edges,
       });
 
-      dispatch({
+      appDispatch({
         type: 'UPDATE_COUNT',
         count: response.issueCount,
       });
 
-      dispatch({
+      appDispatch({
         type: 'UPDATE_PAGE_INFO',
         pageInfo: response.pageInfo,
       });
 
-      dispatch({
+      appDispatch({
         type: 'UPDATE_SEARCH',
         search: {
           user: userParam,
@@ -65,20 +65,20 @@ const SearchForm: React.FC = () => {
       });
     }
 
-    dispatch({
+    appDispatch({
       type: 'UPDATE_PR_COMPONENTS',
       prComponents: prComponents,
     });
 
     // TODO: Think about a way to have one single global isLoading functionality
-    dispatch({ type: 'STOP_LOADING' });
+    appDispatch({ type: 'STOP_LOADING' });
   };
 
   useEffect(() => {
     const userParam = query.get('user') ? query.get('user') : '';
     if (!userParam) {
       history.push(
-        `/?user=${state.loggedInUser.login}&searchType=${searchType}`
+        `/?user=${appState.loggedInUser.login}&searchType=${searchType}`
       );
     } else {
       const searchTypeParam = query.get('searchType')
