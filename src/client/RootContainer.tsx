@@ -12,7 +12,6 @@ const RootContainer: React.FC = () => {
   const [avatarUrl, setAvatarUrl] = useState('');
   const { authState, authDispatch } = useContext(AuthContext);
 
-  // TODO: Evaluate whether this fetch to gh-check-auth should belong here???
   useEffect(() => {
     fetch('/api/gh-fetch-user')
       .then((response) => {
