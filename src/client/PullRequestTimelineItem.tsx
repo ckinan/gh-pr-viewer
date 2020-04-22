@@ -53,7 +53,6 @@ const PullRequestTimelineItem: React.FC<IProps> = ({ node }) => {
   );
 };
 
-// TODO: Should I move this to a constant file?
 const timelineItemConfig: any = {
   PullRequestCommit: {
     icon: () => {
