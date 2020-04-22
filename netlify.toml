@@ -1,7 +1,7 @@
 [build]
     command = "npm run build"
     functions = "src/server/handlers/netlify"
-    publish = "public"
+    publish = "build"
 
 [[redirects]]
   from = "/api/*"
@@ -12,4 +12,3 @@
   from = "/*"
   to = "/index.html"
   status = 200
-  
