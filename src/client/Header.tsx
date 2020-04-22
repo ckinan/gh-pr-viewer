@@ -18,7 +18,7 @@ const Header: React.FC<IProps> = ({ avatarUrl }) => {
           type: 'UPDATE_USER_LOGGED_IN',
           loggedInUser: {},
         });
-        document.title = `Github Pull Request Viewer`;
+        document.title = `gh-pr-viewer`;
         history.push(`/`);
       }
     });
@@ -27,7 +27,7 @@ const Header: React.FC<IProps> = ({ avatarUrl }) => {
   return (
     <div className="Header">
       <div className="Header-item Header-item--full">
-        <span>Github Pull Request Viewer</span>
+        <span>gh-pr-viewer</span>
       </div>
       {(authState.loggedInUser && authState.loggedInUser.login) ||
       authState.loggedInUser.isLoginGhWebFlow === false ? (

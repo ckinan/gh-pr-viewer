@@ -1,6 +1,6 @@
 {
   "short_name": "gh-pr-viewer",
-  "name": "Github Pull Request Viewer",
+  "name": "gh-pr-viewer",
   "start_url": ".",
   "display": "standalone",
   "theme_color": "#000000",
