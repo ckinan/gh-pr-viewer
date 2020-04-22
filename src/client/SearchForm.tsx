@@ -1,13 +1,15 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { AppContext } from './AppContext';
-import { useHistory, useParams, useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import PullRequestBoxRow from './PullRequestBoxRow';
+import { AuthContext } from './AuthContext';
 
 const SearchForm: React.FC = () => {
   // TODO: Understand when we can use useState VS useContext for this type of data
   const [user, setUser] = useState<string>('');
   const [searchType, setSearchType] = useState<string | null>('author');
   const { appState, appDispatch } = useContext(AppContext);
+  const { authState, authDispatch } = useContext(AuthContext);
   const history = useHistory();
   const query = useQuery();
 
@@ -17,7 +19,7 @@ const SearchForm: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    history.push(`/?user=${user}&searchType=${searchType}`);
+    history.push(`/app?user=${user}&searchType=${searchType}`);
   };
 
   // TODO: This fetch should be reusable (this is also used in Pagination component)
@@ -80,8 +82,8 @@ const SearchForm: React.FC = () => {
   useEffect(() => {
     const userParam = query.get('user') ? query.get('user') : '';
     if (!userParam) {
-      history.push(
-        `/?user=${appState.loggedInUser.login}&searchType=${searchType}`
+      history.replace(
+        `/app?user=${authState.loggedInUser.login}&searchType=${searchType}`
       );
     } else {
       const searchTypeParam = query.get('searchType')
@@ -103,7 +105,7 @@ const SearchForm: React.FC = () => {
   ) => {
     e.preventDefault();
     setSearchType(searchType);
-    history.push(`/?user=${user}&searchType=${searchType}`);
+    history.replace(`/app?user=${user}&searchType=${searchType}`);
   };
 
   return (

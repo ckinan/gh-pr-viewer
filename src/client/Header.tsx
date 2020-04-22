@@ -29,7 +29,8 @@ const Header: React.FC<IProps> = ({ avatarUrl }) => {
       <div className="Header-item Header-item--full">
         <span>Github Pull Request Viewer</span>
       </div>
-      {Object.keys(authState.loggedInUser).length > 0 ? (
+      {(authState.loggedInUser && authState.loggedInUser.login) ||
+      authState.loggedInUser.isLoginGhWebFlow === false ? (
         <div className="Header-item mr-0">
           <details className="dropdown details-reset details-overlay d-inline-block">
             <summary aria-haspopup="true">

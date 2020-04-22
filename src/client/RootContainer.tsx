@@ -1,35 +1,47 @@
 import React, { useState, useContext, useEffect } from 'react';
-import Header from './Header';
 import PublicView from './PublicView';
 import ProtectedView from './ProtectedView';
 import './App.scss';
 import { AuthContext } from './AuthContext';
+import { Route, useHistory, useLocation } from 'react-router-dom';
+import Header from './Header';
 
 const RootContainer: React.FC = () => {
   // TODO: Should we use a global 'isLoading' state? Today I have one for the auth-check and another for the PR Rows
   const [isLoading, setIsLoading] = useState<boolean>(true);
   // TODO: Same here, we have a global 'loggedInUser' and this local state hook. Should we have only 1 state with that information?
-  const [avatarUrl, setAvatarUrl] = useState<string>('');
   const { authState, authDispatch } = useContext(AuthContext);
+  let history = useHistory();
+  let location = useLocation();
 
   useEffect(() => {
-    fetch('/api/gh-fetch-user')
-      .then((response) => {
+    async function fetchUser() {
+      const response = await fetch('/api/gh-fetch-user').then((response) => {
         return response.json();
-      })
-      .then((response) => {
-        setAvatarUrl(response.avatarUrl);
-        setIsLoading(false);
-        authDispatch({
-          type: 'UPDATE_USER_LOGGED_IN',
-          loggedInUser: response,
-        });
       });
+
+      authDispatch({
+        type: 'UPDATE_USER_LOGGED_IN',
+        loggedInUser: response,
+      });
+
+      if ((response && response.login) || response.isLoginGhWebFlow === false) {
+        const newLocation =
+          location.search.length > 0 ? `/app${location.search}` : '/app';
+        history.replace(newLocation);
+      } else {
+        history.replace('/');
+      }
+
+      setIsLoading(false);
+    }
+
+    fetchUser();
   }, []);
 
   return (
     <>
-      <Header avatarUrl={avatarUrl} />
+      <Header avatarUrl={authState.loggedInUser.avatarUrl} />
       {isLoading ? (
         <div className="mx-auto my-3 p-1" style={{ maxWidth: '900px' }}>
           <div className="blankslate">
@@ -39,31 +51,16 @@ const RootContainer: React.FC = () => {
             </h2>
           </div>
         </div>
-      ) : (authState.loggedInUser && authState.loggedInUser.login) ||
-        authState.loggedInUser.isLoginGhWebFlow === false ? (
-        <>
-          {/*
-          TODO: Move this Warning message to the ProtectedView
-          TODO: Create a separate component for Messages
-          */}
-          {authState.loggedInUser.isLoginGhWebFlow === false ? (
-            <div className="flash flash-warn">
-              <strong>WARNING:</strong> You are using a Personal Access Token.
-              Use this only for development or working locally. For
-              public/production environment, use Authentication via Github Web
-              Flow
-            </div>
-          ) : (
-            <></>
-          )}
-          <ProtectedView />
-        </>
       ) : (
-        <PublicView />
+        <>
+          <Route exact path="/">
+            <PublicView />
+          </Route>
+          <Route path="/app">
+            <ProtectedView />
+          </Route>
+        </>
       )}
-      {/*
-        TODO: Move ProtectedView and PublicView into a new component: Body. Logic to toggle views between them should be there
-        */}
     </>
   );
 };

@@ -7,6 +7,7 @@ import {
   AuthReducer,
 } from './AuthContext';
 import RootContainer from './RootContainer';
+import { BrowserRouter } from 'react-router-dom';
 
 const App: React.FC = () => {
   const [appState, appDispatch] = useReducer(
@@ -19,11 +20,13 @@ const App: React.FC = () => {
   );
 
   return (
-    <AppContext.Provider value={{ appState, appDispatch }}>
-      <AuthContext.Provider value={{ authState, authDispatch }}>
-        <RootContainer />
-      </AuthContext.Provider>
-    </AppContext.Provider>
+    <BrowserRouter>
+      <AppContext.Provider value={{ appState, appDispatch }}>
+        <AuthContext.Provider value={{ authState, authDispatch }}>
+          <RootContainer />
+        </AuthContext.Provider>
+      </AppContext.Provider>
+    </BrowserRouter>
   );
 };
 

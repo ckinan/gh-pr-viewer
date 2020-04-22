@@ -2,16 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './client/App';
 import * as serviceWorker from './client/serviceWorker';
-import { BrowserRouter, Route } from 'react-router-dom';
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
-      {/**
-       * TODO: Create /app root for ProtectedView and exact / for PublicView
-       */}
-      <Route exact path="/" component={App} />
-    </BrowserRouter>
+    <App />
   </React.StrictMode>,
   document.getElementById('root')
 );
