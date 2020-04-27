@@ -32,7 +32,7 @@ exports.fetchPullRequests = async function (
     }
 
     let paginationQuery = '';
-    const pageCount = 3;
+    const pageCount = 10;
     if (paginationActionType === 'previous') {
       paginationQuery = `last:${pageCount}, before:"${cursor}"`;
     } else if (paginationActionType === 'next') {
