@@ -1,5 +1,5 @@
-const auth = require('../../commons/auth');
-const GhApiClientService = require('../../services/gh-api-client-service');
+const auth = require('./commons/auth');
+const GhApiClientService = require('./services/gh-api-client-service');
 
 exports.handler = async function (event) {
   try {

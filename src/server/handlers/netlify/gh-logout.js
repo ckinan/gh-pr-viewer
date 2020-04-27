@@ -1,4 +1,4 @@
-const auth = require('../../commons/auth');
+const auth = require('./commons/auth');
 
 exports.handler = async function (event) {
   try {
