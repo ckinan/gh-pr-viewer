@@ -1,6 +1,8 @@
 # gh-pr-viewer
 
-Clone of https://github.com/pulls with some variations.
+Clone of https://github.com/pulls with some variations. Demo on Netlify: https://gh-pr-viewer.netlify.app/
+
+![screenshot](screenshot.png)
 
 ## Using:
 
