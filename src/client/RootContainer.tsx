@@ -36,7 +36,9 @@ const RootContainer: React.FC = () => {
       setIsLoading(false);
     }
 
-    fetchUser();
+    // TODO: This was commented in favor of using Github PAT
+    // fetchUser();
+    setIsLoading(false);
   }, []);
 
   return (

@@ -9,15 +9,23 @@ const ProtectedView: React.FC = () => {
 
   return (
     <>
-      {authState.loggedInUser.isLoginGhWebFlow === false ? (
+      {
+        // TODO: This was commented in favor of using Github PAT
+        //authState.loggedInUser.isLoginGhWebFlow === false ?
         <div className="flash flash-warn">
-          <strong>WARNING:</strong> You are using a Personal Access Token. Use
-          this only for development or working locally. For public/production
-          environment, use Authentication via Github Web Flow
+          <p>
+            <strong>NOTE:</strong> Just type your Github username (or from
+            someone else) in the text box below and submit and your OPEN Pull
+            Requests should be listed. "Clone" of{' '}
+            <a href="https://github.com/pulls">Github PRs View</a>, but with
+            some variations. Find the repo{' '}
+            <a href="https://github.com/ckinan/gh-pr-viewer">here</a>
+          </p>
         </div>
-      ) : (
-        <></>
-      )}
+        //: (
+        //  <></>
+        //)
+      }
       <div className="mx-auto my-3" style={{ maxWidth: '1024px' }}>
         <SearchForm />
         <PullRequestBox />

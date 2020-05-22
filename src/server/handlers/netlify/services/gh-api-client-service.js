@@ -153,7 +153,6 @@ const queryFetchPullRequests = `{
                 requestedReviewer {
                   ... on User {
                     id
-                    email
                     login
                   }
                 }

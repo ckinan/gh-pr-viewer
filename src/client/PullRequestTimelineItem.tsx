@@ -98,13 +98,13 @@ const timelineItemConfig: any = {
       return 'text-gray';
     },
     avatarUrl: (node: any) => {
-      return node.author.avatarUrl;
+      return node.author ? node.author.avatarUrl : '';
     },
     date: (node: any) => {
       return node.updatedAt;
     },
     text: (node: any) => {
-      return `${node.author.login} wrote a comment`;
+      return `${node.author ? node.author.login : '(unknown)'} wrote a comment`;
     },
   },
   PullRequestReview: {
