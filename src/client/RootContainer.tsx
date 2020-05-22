@@ -38,6 +38,7 @@ const RootContainer: React.FC = () => {
 
     // TODO: This was commented in favor of using Github PAT
     // fetchUser();
+    history.replace('/app?user=ckinan&searchType=author');
     setIsLoading(false);
   }, []);
 
